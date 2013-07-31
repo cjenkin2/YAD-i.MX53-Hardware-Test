@@ -1,0 +1,24 @@
+#!/bin/bash
+
+config_main_menu_item()
+{
+	hwtest=${1}
+	status=${2}
+
+	case ${status} in
+		Incomplete)
+			color="black"
+			;;
+		Failure)
+			color="red"
+			;;
+		Success)
+			color="green"
+			;;
+		*)
+			color="orange"
+			;;
+	esac
+
+	echo ${hwtest} ${status} ${color}
+}
