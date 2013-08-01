@@ -1,3 +1,25 @@
 #!/bin/bash
 
-yad
+. ../functions
+
+PANGRAM="Sphinx of black quartz, judge my vow."
+
+while :
+do
+	ask_continue $(yad --text="$(cat Keyboard_pg1.txt)")
+	input=$(yad --text-info --editable --text="${PANGRAM}")
+
+	res=$(yad --form --field="Please confirm the following: you were asked to type":LBL --field="${PANGRAM}":LBL --field="and with the keyboard you typed":LBL --field="${input}":LBL)
+	btn=$?
+
+	if [ ${btn} = 0 ]
+	then
+		if [[ "${input}" = ${PANGRAM} ]]
+		then
+			echo "Success"
+		else
+			echo "Failure"
+		fi
+		exit 0	
+	fi
+done

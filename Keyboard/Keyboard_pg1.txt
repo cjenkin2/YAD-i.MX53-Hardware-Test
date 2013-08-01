@@ -1,0 +1,5 @@
+This is a test of the your keyboard.
+
+The following window will display a sentence above a blank text field. Please type the sentence into the field EXACTLY as it appears and without pressing ENTER.
+
+Press 'OK' to continue, or 'Cancel' to return to the main menu.
