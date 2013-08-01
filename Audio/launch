@@ -2,6 +2,7 @@
 
 . ../functions
 
+# TODO make sure user actually picks an option!
 audio_feedback_menu()
 {
 	local stage=${1}
@@ -34,51 +35,22 @@ audio_none()
 	echo "Failure"
 }
 
-$(yad --text="$(cat Audio_pg1.txt)")
-btn=$?
+ask_continue $(yad --text="$(cat Audio_pg1.txt)")
 
-if close_menu ${btn} 
-then
-	exit 1
-fi
-
-speaker-test -l 1
+$(speaker-test -l 1 > /dev/null)
 
 # TODO reading multi-word list entries from a file is
 # harder than expected
 # TODO make sure the user picks a choice
 result=$(audio_feedback_menu "pink_noise")
-
-if close_menu ${btn}
-then
-	exit 1
-fi
-
 stat=$(current_status "" $($(echo ${result} | cut -d "|" -f3)))
 
-if ! continue_after_failure ${stat}
-then
-	echo ${stat}
-	exit 0
-fi
+ask_continue $(if_failure ${stat})
+ask_continue $(yad --text="$(cat Audio_pg2.txt)")
 
-yad --text="$(cat Audio_pg2.txt)"
-btn=$?
-
-if close_menu ${btn} 
-then
-	exit 1
-fi
-
-mpg321 clip.mp3
+$(mpg321 clip.mp3 > /dev/null)
 
 result=$(audio_feedback_menu "mp3_playback")
-
-if close_menu ${btn}
-then
-	exit 1
-fi
-
 stat=$(current_status ${stat} $($(echo ${result} | cut -d "|" -f3)))
 
 echo ${stat}
