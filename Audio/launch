@@ -42,7 +42,7 @@ then
 	exit 1
 fi
 
-#speaker-test -l 1
+speaker-test -l 1
 
 # TODO reading multi-word list entries from a file is
 # harder than expected
@@ -70,7 +70,7 @@ then
 	exit 1
 fi
 
-# mpg321 clip.mp3
+mpg321 clip.mp3
 
 result=$(audio_feedback_menu "mp3_playback")
 

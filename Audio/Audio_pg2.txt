@@ -1,0 +1,4 @@
+	The following test will play a recording of the first few minutes of Beethoven's 5th Symphony.
+You will then be asked whether there were problems with audio playback.
+
+Press 'OK' to continue, 'Cancel' to return to the main menu.
