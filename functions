@@ -8,6 +8,36 @@ okBtn="0"
 MAIN_MENU="--list --column=Test --column=Status --column=@fore@"
 FEEDBACK_MENU="--list --column=:RD --column=Status --column=Action:HD"
 
+# general functions
+continue_after_failure()
+{
+	local stat=${1}
+	local res=0
+
+	if [ ${stat} = "Failure" ]
+	then
+	    res=$(yad --text="The previoius test ended in failure. Would you like to continue?")
+	fi
+
+	return ${res}
+}
+
+current_status()
+{
+	oldStat=${1}
+	newStat=${2}
+
+	if [ -z "${oldStat}" ]
+	then
+		echo ${newStat}
+	elif [[ "$oldStat" = $newStat  ]]
+	then
+		echo $oldStat
+	else
+		echo "Mixed"
+	fi
+}
+
 close_menu()
 {
 	btn=${1}
@@ -42,6 +72,7 @@ mk_menu_body()
 	echo ${accum_body}
 }
 
+# main menu functions
 config_main_menu_item()
 {
 	local hwtest=${1}
@@ -58,8 +89,11 @@ config_main_menu_item()
 		Success)
 			color="green"
 			;;
-		*)
+		Mixed)
 			color="orange"
+			;;
+		*)
+			color="purple"
 			;;
 	esac
 
