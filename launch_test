@@ -9,26 +9,22 @@ fi
 
 while :
 do
-	menu_item=$(${YAD_MAIN_MENU} $(mk_menu_body main_menu.dat config_main_menu_item))
-#	main_menu_body=""
-#	while read line
-#	do
-#		menu_item=$(echo $(config_main_menu_item $line))
-#		main_menu_body="${main_menu_body} ${menu_item}"
-#	done < main_menu.dat
-#
-#	menu_item=$(${YAD_MAIN_MENU} ${main_menu_body})
+	menu_item=$(yad ${MAIN_MENU} $(mk_menu_body main_menu.dat config_main_menu_item))
 	btn=$?
 
 	echo "${menu_item}"
 	echo "${btn}"
 
-	if [ "$btn" -eq "1" ]; then
+	if close_menu ${btn}
+	then
 		break
 	fi
 
 	if [ ! -z "${menu_item}" ]; then
 		choice=./$(parse_item ${menu_item})
-		cd ${choice}; ./launch; cd ..
+		cd ${choice}; status=$(./launch); cd ..
+		echo "Result is: ${status}"
+
+		update_test_status ${choice} ${status} main_menu.dat
 	fi
 done

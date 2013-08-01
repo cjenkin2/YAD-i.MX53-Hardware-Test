@@ -1,7 +1,24 @@
 #!/bin/bash
 
-YAD_MAIN_MENU="yad --list --column=Test --column=Status --column=@fore@"
-YAD_FEEDBACK_MENU="yad --list --column=:RD --column=Status --column=Action:HD"
+# buttons
+cancelBtn="1"
+closeBtn="252"
+okBtn="0"
+
+MAIN_MENU="--list --column=Test --column=Status --column=@fore@"
+FEEDBACK_MENU="--list --column=:RD --column=Status --column=Action:HD"
+
+close_menu()
+{
+	btn=${1}
+
+	if [ ${btn} -eq "0" ]
+	then
+		return 1
+	else
+		return 0
+	fi
+}
 
 mk_menu_body()
 {
@@ -47,6 +64,32 @@ config_main_menu_item()
 	esac
 
 	echo ${hwtest} ${status} ${color}
+}
+
+update_test_status()
+{
+	local testName=${1}
+	local status=${2}
+	local fileName=${3}
+
+	if [ -z "${status}" ]
+	then
+		exit 0
+	fi
+
+	local tmp=""
+
+	while read line
+	do
+		if [[ ${testName}* == ${line} ]]
+		then
+			tmp="${tmp}${testName} ${status}\n"
+		else
+			tmp="${tmp}${line}\n"
+		fi
+	done < ${filename}
+
+	echo "${tmp}" > ${fileName}
 }
 
 parse_item()
