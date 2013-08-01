@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# buttons
+cancelBtn="1"
+okBtn="0"

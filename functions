@@ -1,0 +1,55 @@
+#!/bin/bash
+
+YAD_MAIN_MENU="yad --list --column=Test --column=Status --column=@fore@"
+YAD_FEEDBACK_MENU="yad --list --column=:RD --column=Status --column=Action:HD"
+
+mk_menu_body()
+{
+	local file=${1}
+	local process=${2}
+
+	if [ -z "${process}" ]
+	then
+		process="echo"
+	fi
+
+	local accum_body=""
+	local tmp=""
+
+	while read line
+	do
+		tmp=$(${process} ${line})
+		accum_body="${accum_body} ${tmp}"
+	done < ${file}
+
+	echo ${accum_body}
+}
+
+config_main_menu_item()
+{
+	local hwtest=${1}
+	local status=${2}
+	local color=""
+
+	case ${status} in
+		Incomplete)
+			color="black"
+			;;
+		Failure)
+			color="red"
+			;;
+		Success)
+			color="green"
+			;;
+		*)
+			color="orange"
+			;;
+	esac
+
+	echo ${hwtest} ${status} ${color}
+}
+
+parse_item()
+{
+	echo ${1} | cut -d"|" -f1
+}

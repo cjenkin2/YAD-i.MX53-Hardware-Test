@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. ../defs
+. ../functions
+
+yad --text="$(cat Audio_pg1.txt)"
+btn=$?
+
+if [ ${btn} -eq ${cancelBtn} ] 
+then
+	exit 1
+fi
+
+speaker-test -l 1
+
+result=$(${YAD_FEEDBACK_MENU} "" "No Audio" "echo nothing" "" "Problem with Audio" "echo bad things" "" "Audio Playback OK" "" "echo good things")
+
+if [ ${btn} -eq ${cancelBtn} ] 
+then
+	exit 1
+fi
+
+echo $result
+
+$(echo $result | cut -d"|" -f3)
