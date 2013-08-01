@@ -77,19 +77,19 @@ update_test_status()
 		exit 0
 	fi
 
-	local tmp=""
+	echo ${testName}
 
 	while read line
 	do
-		if [[ ${testName}* == ${line} ]]
+		if [[ $line == ${testName}* ]]
 		then
-			tmp="${tmp}${testName} ${status}\n"
+			echo "${testName} ${status}" >> tmp_menu_file
 		else
-			tmp="${tmp}${line}\n"
+			echo "${line}" >> tmp_menu_file
 		fi
-	done < ${filename}
+	done < ${fileName}
 
-	echo "${tmp}" > ${fileName}
+	mv tmp_menu_file ${fileName}
 }
 
 parse_item()

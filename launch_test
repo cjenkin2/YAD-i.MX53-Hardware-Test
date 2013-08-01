@@ -21,7 +21,7 @@ do
 	fi
 
 	if [ ! -z "${menu_item}" ]; then
-		choice=./$(parse_item ${menu_item})
+		choice=$(parse_item ${menu_item})
 		cd ${choice}; status=$(./launch); cd ..
 		echo "Result is: ${status}"
 
