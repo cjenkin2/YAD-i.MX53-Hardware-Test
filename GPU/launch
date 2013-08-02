@@ -1,0 +1,51 @@
+#!/bin/bash
+
+. ../functions
+
+GPU_TEST_TIME=10
+
+gpu_feedback_menu()
+{
+	local stage=${1}
+
+	yad ${FEEDBACK_MENU} \
+"" "No graphics displayed" "gpu_none ${stage}" \
+"" "Problem with graphics" "gpu_problem ${stage}" \
+"" "Graphics display OK" "gpu_good ${stage}" 
+}
+
+gpu_none()
+{
+	echo "Failure"
+}
+
+gpu_problem()
+{
+	echo "Failure"
+}
+
+gpu_good()
+{
+	echo "Success"
+}
+
+ask_continue $(txtmenu_from_file GPU_pg1.txt)
+ask_continue $(txtmenu_from_file GPU_pg2.txt)
+
+# timeout ${GPU_TEST_TIME} torusknot
+progress_view ${GPU_TEST_TIME}
+
+#TODO make sure the user picks a choice
+result=$(gpu_feedback_menu "tourusknot")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+ask_continue $(if_failure ${stat})
+ask_continue $(txtmenu_from_file GPU_pg3.txt)
+
+#timeout ${GPU_TIME} simple_draw > /dev/null &
+progress_view ${GPU_TEST_TIME}
+
+result=$(gpu_feedback_menu "simple_draw")
+stat=$(current_status ${stat} $(get_feedback_status "${result}") )
+
+echo ${stat}

@@ -7,11 +7,23 @@ OK_BTN="0"
 
 DEFAULT_TITLE="Genesi i.MX53 Hardware Tests"
 
-
-MAIN_MENU="--title=\"${DEFAULT_TITLE}\" --list --print-column=2 --column=icon:IMG --column=Test --column=Status --column=@fore@"
+MAIN_MENU="--title=${DEFAULT_TITLE} --list --print-column=2 --column=icon:IMG --column=Test --column=Status --column=@fore@"
 FEEDBACK_MENU="--list --column=:RD --column=Status --column=Action:HD"
 
 # general functions
+
+txtmenu_from_file()
+{
+	local file=${1}
+	local title=${2}
+
+	if [ -z "${title}" ]
+	then
+		title="${DEFAULT_TITLE}"
+	fi
+
+	yad --title="${title}" --text="$(cat ${file})"
+}
 
 ask_continue()
 {
@@ -71,6 +83,14 @@ continue_after_failure()
 	fi
 
 	return ${res}
+}
+
+# TODO not linked with the structure of FEEDBACK_MENU at all!
+get_feedback_status()
+{
+	local result="${1}"
+
+	echo $($(echo "${result}" | cut -d "|" -f3))
 }
 
 current_status()

@@ -38,25 +38,22 @@ audio_none()
 	echo "Failure"
 }
 
-ask_continue $(yad --text="$(cat Audio_pg1.txt)")
-
+ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
 timeout ${PINKNOISE_TIME} speaker-test -l 1 > /dev/null 2>&1 &
 progress_view ${PINKNOISE_TIME}
 
-# TODO reading multi-word list entries from a file is
-# harder than expected
 # TODO make sure the user picks a choice
 result=$(audio_feedback_menu "pink_noise")
-stat=$(current_status "" $($(echo ${result} | cut -d "|" -f3)))
+stat=$(current_status "" $(get_feedback_status "${result}") )
 
 ask_continue $(if_failure ${stat})
-ask_continue $(yad --text="$(cat Audio_pg2.txt)")
+ask_continue $(txtmenu_from_file Audio_pg2.txt)
 
-$(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 > /dev/null) &
+timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 > /dev/null &
 progress_view ${BEETHOVEN_TIME}
 
 result=$(audio_feedback_menu "mp3_playback")
-stat=$(current_status ${stat} $($(echo ${result} | cut -d "|" -f3)))
+stat=$(current_status ${stat} $(get_feedback_status "${result}") )
 
 echo ${stat}
