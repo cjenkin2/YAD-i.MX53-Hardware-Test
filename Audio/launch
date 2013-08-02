@@ -2,6 +2,9 @@
 
 . ../functions
 
+PINKNOISE_TIME=10
+BEETHOVEN_TIME=10
+
 # TODO make sure user actually picks an option!
 audio_feedback_menu()
 {
@@ -37,7 +40,9 @@ audio_none()
 
 ask_continue $(yad --text="$(cat Audio_pg1.txt)")
 
-$(speaker-test -l 1 > /dev/null)
+
+$(timeout ${PINKNOISE_TIME} speaker-test -l 1 > /dev/null) &
+progress_view ${PINKNOISE_TIME}
 
 # TODO reading multi-word list entries from a file is
 # harder than expected
@@ -48,7 +53,8 @@ stat=$(current_status "" $($(echo ${result} | cut -d "|" -f3)))
 ask_continue $(if_failure ${stat})
 ask_continue $(yad --text="$(cat Audio_pg2.txt)")
 
-$(mpg321 clip.mp3 > /dev/null)
+$(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 > /dev/null) &
+progress_view ${BEETHOVEN_TIME}
 
 result=$(audio_feedback_menu "mp3_playback")
 stat=$(current_status ${stat} $($(echo ${result} | cut -d "|" -f3)))

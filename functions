@@ -33,6 +33,18 @@ if_failure()
 	fi
 }
 
+progress_view()
+{
+	local ttime=${1}
+
+	for i in $(seq 1 $ttime)
+	do
+		sleep 1
+		echo "100*${i}/${ttime}" | bc -l
+	done | yad --progress --auto-close
+
+}
+
 continue_after_failure()
 {
 	local stat=${1}
