@@ -48,7 +48,7 @@ if_failure()
 	fi
 }
 
-progress_view()
+progress_view_deprc()
 {
 	local ttime=${1}
 	local title=${2}
@@ -70,6 +70,67 @@ progress_view()
 		echo "100*${i}/${ttime}" | bc -l
 	done | yad --title="${title}" --progress --auto-close --text="${text}"
 
+}
+
+progress_view_dummy()
+{
+	local ttime=${1}
+
+	for i in $(seq 1 $ttime)
+	do
+		sleep 1
+		echo ""
+	done
+}
+
+progress_view()
+{
+	local ttime=${1}
+	local title=${2}
+	local text=${3}
+	
+	shift 3
+
+	local opts="$@"
+
+	local start_time=${SECONDS}
+
+    if [ -z "${title}" ]
+    then
+        title="${DEFAULT_TITLE}"
+    fi
+
+    if [ -z "${text}" ]
+    then
+        text="Test in progress. Please wait."
+    fi
+
+	while read line
+	do
+		echo "#${line}"
+		echo "100 * (${SECONDS} - ${start_time}) / ${ttime}" | bc -l
+	done | yad --title="${title}" --progress --text="${text}" ${opts}
+}
+
+progress_view_live_deprc()
+{
+	local title=${2}
+	local text=${3}
+
+	if [ -z "${title}" ]
+	then
+		title="${DEFAULT_TITLE}"
+	fi
+	
+	if [ -z "${text}" ]
+	then
+		text="Test in progress. Please wait."
+	fi
+
+	while read line
+	do
+		echo "#${line}"
+	done | yad --title="${title}" --progress --autoclose --text="${text}" --enable-log > /dev/null 2>&1
 }
 
 continue_after_failure()

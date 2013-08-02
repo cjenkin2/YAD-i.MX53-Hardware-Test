@@ -1,3 +1,11 @@
 #!/bin/bash
 
-yad
+. ../functions
+
+PING_TIME=15
+
+ask_continue $(txtmenu_from_file Network_pg1.txt)
+
+url=$(parse_item $(yad --text="Please provide a URL below" --form --field="URL")); ask_continue
+
+ping -w ${PING_TIME} ${url} | simple_progress_view ${PING_TIME}
