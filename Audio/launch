@@ -41,7 +41,7 @@ audio_none()
 ask_continue $(yad --text="$(cat Audio_pg1.txt)")
 
 
-$(timeout ${PINKNOISE_TIME} speaker-test -l 1 > /dev/null) &
+timeout ${PINKNOISE_TIME} speaker-test -l 1 > /dev/null 2>&1 &
 progress_view ${PINKNOISE_TIME}
 
 # TODO reading multi-word list entries from a file is

@@ -2,6 +2,13 @@
 
 . ./functions
 
+main_menu()
+{
+	yad --title="${DEFAULT_TITLE}" --list --print-column=2 \
+--column=icon:IMG --column=Test --column=Status --column=@fore@ \
+$(mk_menu_body main_menu.dat config_main_menu_item)
+}
+
 if [ ! -e main_menu.dat ]
 then
 	./init_main_menu < hardware_list.dat > main_menu.dat
@@ -9,16 +16,9 @@ fi
 
 while :
 do
-	menu_item=$(yad ${MAIN_MENU} $(mk_menu_body main_menu.dat config_main_menu_item))
-	btn=$?
-
-	echo "${menu_item}"
-	echo "${btn}"
-
-	if close_menu ${btn}
-	then
-		break
-	fi
+	
+	menu_item=$(main_menu)
+	ask_continue # hacky but it works
 
 	if [ ! -z "${menu_item}" ]; then
 		choice=$(parse_item ${menu_item})
