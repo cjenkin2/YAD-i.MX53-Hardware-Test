@@ -43,7 +43,7 @@ ask_continue $(if_failure ${stat})
 ask_continue $(txtmenu_from_file GPU_pg3.txt)
 
 #timeout ${GPU_TIME} simple_draw > /dev/null &
-progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --autoclose
+progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --auto-close
 
 result=$(gpu_feedback_menu "simple_draw")
 stat=$(current_status ${stat} $(get_feedback_status "${result}") )
