@@ -1,0 +1,3 @@
+This is a test of i.MX53 wireless network capabilities. It simply runs the commands 'ping' and 'wget' on a user-provided URL (default is wikipedia.org)
+
+To continue, press 'OK'. To return to the main menu, press 'Cancel'.

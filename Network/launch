@@ -4,8 +4,39 @@
 
 PING_TIME=15
 
+network_feedback_menu()
+{
+	stage=${1}
+
+	yad ${FEEDBACK_MENU} \
+"" "Problem with network connection" "network_problem ${stage}" \
+"" "Network conection OK" "network_good ${stage}"
+}
+
+network_good()
+{
+	echo "Success"
+}
+
+network_problem()
+{
+	echo "Failure"
+}
+
 ask_continue $(txtmenu_from_file Network_pg1.txt)
 
-url=$(parse_item $(yad --text="Please provide a URL below" --form --field="URL")); ask_continue
+url=$(parse_item $(yad --text="Please provide a URL below (default of wikipedia.org)" --form --field="URL")); ask_continue
 
-ping -w ${PING_TIME} ${url} | simple_progress_view ${PING_TIME}
+if [ -z "${url}" ]
+then
+	url="wikipedia.org"
+fi
+
+ping -w ${PING_TIME} ${url} | progress_view ${PING_TIME} "" "" --enable-log --log-expanded
+
+result=$(network_feedback_menu "ping")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+ask_continue $(if_failure ${stat})
+
+echo "${stat}"

@@ -50,7 +50,6 @@ stat=$(current_status "" $(get_feedback_status "${result}") )
 ask_continue $(if_failure ${stat})
 ask_continue $(txtmenu_from_file Audio_pg2.txt)
 
-
 timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1 & 
 progress_view_dummy ${PINKNOISE_TIME} | progress_view ${BEETHOVEN_TIME} "" "" --auto-close
 
