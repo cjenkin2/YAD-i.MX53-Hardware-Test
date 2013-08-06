@@ -55,10 +55,29 @@ stat=$(current_status "" $(get_feedback_status "${result}") )
 ask_continue $(if_failure ${stat})
 ask_continue $(txtmenu_from_file GPU_pg3.txt)
 
-#timeout ${GPU_TIME} simple_draw > /dev/null &
-progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --auto-close
+GLES1_TESTS="es11ex"
 
-result=$(gpu_feedback_menu "simple_draw")
-stat=$(current_status ${stat} $(get_feedback_status "${result}") )
+for ttest in ${GLES1_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
+
+#TODO make sure the user picks a choice
+result=$(gpu_feedback_menu "gles1")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+ask_continue $(if_failure ${stat})
+ask_continue $(txtmenu_from_file GPU_pg3.txt)
+
+GLES2_TESTS="./torusknot simple_draw"
+
+for ttest in ${GLES2_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
+
+#TODO make sure the user picks a choice
+result=$(gpu_feedback_menu "gles2")
+stat=$(current_status "" $(get_feedback_status "${result}") )
 
 echo ${stat}
