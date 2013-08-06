@@ -1,0 +1,50 @@
+#!/bin/bash
+
+. ./functions
+
+TEST_NAME=2
+RESULT_STATUS=3
+
+main_menu()
+{
+	yad --title="${DEFAULT_TITLE}" --list \
+--column=icon:IMG --column=Test --column=Status --column=@fore@ \
+$(mk_menu_body main_menu.dat config_main_menu_item)
+}
+
+# passing in what should be function arguments as global variables
+# this is bad and I feel bad
+launch_test()
+{
+	if [ ! -z "${old_stat}" ] && [ ! "${old_stat}" = "Incomplete" ]
+	then
+		ask_continue $(yad --text="This test has already been run, \
+with status \"${old_stat}\".\n\n\
+Please review the log file below and then decide \
+if you would you like to run this test again." \
+--text-info --filename="${choice}/log" --wrap)
+	fi
+
+	cd ${choice}; init_log; status=$(./launch); cd ..;
+
+	update_test_status ${choice} ${status} main_menu.dat
+}
+
+if [ ! -e main_menu.dat ]
+then
+	./init_main_menu < hardware_list.dat > main_menu.dat
+fi
+
+while :
+do
+	
+	menu_item=$(main_menu)
+	ask_continue # hacky but it works
+
+	if [ ! -z "${menu_item}" ]; then
+		choice=$(parse_item ${TEST_NAME} ${menu_item})
+		old_stat=$(parse_item ${RESULT_STATUS} ${menu_item})
+
+		$(launch_test) > /dev/null
+	fi
+done

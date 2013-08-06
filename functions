@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # buttons
+
 CANCEL_BTN="1"
 CLOSE_BTN="252"
 OK_BTN="0"
 
-DEFAULT_TITLE="Genesi i.MX53 Hardware Tests"
+# menu options
 
+DEFAULT_TITLE="Genesi i.MX53 Hardware Tests"
 MAIN_MENU="--title=${DEFAULT_TITLE} --list --print-column=2 --column=icon:IMG --column=Test --column=Status --column=@fore@"
 FEEDBACK_MENU="--list --column=:RD --column=Status --column=Action:HD"
 
@@ -204,6 +206,35 @@ mk_menu_body()
 	echo ${accum_body}
 }
 
+parse_item()
+{
+	local item_num="${1}"
+	local menu_result="${2}"
+
+	echo "${menu_result}" | cut -d"|" -f"${item_num}"
+}
+
+# logging
+init_test_log()
+{
+	# bad form - implicitly takes logging directory as
+	# current directory
+
+	local logfile="$(pwd)/log"
+
+	echo "----------------------------------------" >> ${logfile}
+	date >> ${logfile}
+	echo "Logging for test $(basename $(pwd))"      >> ${logfile}
+}
+
+log()
+{
+	local msg="${1}"
+	local logfile="$(pwd)/log"
+
+	echo $(date "+[%H:%M:%S] ${msg}") >> ${logfile}
+}
+
 # main menu functions
 config_main_menu_item()
 {
@@ -249,8 +280,6 @@ update_test_status()
 		exit 0
 	fi
 
-	echo ${testName}
-
 	while read line
 	do
 		if [[ $line == ${testName}* ]]
@@ -262,12 +291,4 @@ update_test_status()
 	done < ${fileName}
 
 	mv tmp_menu_file ${fileName}
-}
-
-parse_item()
-{
-	local item_num="${1}"
-	local menu_result="${2}"
-
-	echo "${menu_result}" | cut -d"|" -f"${item_num}"
 }
