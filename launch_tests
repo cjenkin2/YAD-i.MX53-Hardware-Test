@@ -25,7 +25,7 @@ if you would you like to run this test again." \
 --text-info --filename="${choice}/log" --wrap)
 	fi
 
-	cd ${choice}; init_log; status=$(./launch); cd ..;
+	cd ${choice}; init_test_log; status=$(./launch); cd ..;
 
 	update_test_status ${choice} ${status} main_menu.dat
 }

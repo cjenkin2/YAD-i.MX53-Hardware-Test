@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# yad
+
+# UGLY HACK IS UGLY
+if [ -e ./bin/yad ]
+then
+	PATH="${PATH}:$(pwd)/bin"
+elif [ -e ../bin/yad ]
+then
+	PATH="${PATH}:$(pwd)/../bin"
+else
+	echo "WARNING: yad not available"
+	exit 1
+fi
+
 # buttons
 
 CANCEL_BTN="1"
@@ -70,7 +84,7 @@ progress_view_deprc()
 	do
 		sleep 1
 		echo "100*${i}/${ttime}" | bc -l
-	done | yad --title="${title}" --progress --auto-close --text="${text}"
+	done | ${yad} --title="${title}" --progress --auto-close --text="${text}"
 
 }
 

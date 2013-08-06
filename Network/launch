@@ -25,7 +25,7 @@ network_problem()
 
 ask_continue $(txtmenu_from_file Network_pg1.txt)
 
-url=$(parse_item $(yad --text="Please provide a URL below (default of wikipedia.org)" --form --field="URL")); ask_continue
+url=$(parse_item 1 $(yad --text="Please provide a URL below (default of wikipedia.org)" --form --field="URL")); ask_continue
 
 if [ -z "${url}" ]
 then
