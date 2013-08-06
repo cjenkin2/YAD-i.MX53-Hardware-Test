@@ -29,14 +29,27 @@ gpu_good()
 	echo "Success"
 }
 
+run_gpu_test()
+{
+	local ttest="${1}"
+
+	progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --auto-close &
+	timeout ${GPU_TEST_TIME} "${ttest}"
+}
+
 ask_continue $(txtmenu_from_file GPU_pg1.txt)
 ask_continue $(txtmenu_from_file GPU_pg2.txt)
 
-# timeout ${GPU_TEST_TIME} torusknot
-progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --auto-close
+#dpkg -L libopenvg1-imx-demos
+OPENVG1_TESTS="tiger tiger_ri"
+
+for ttest in ${OPENVG1_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
 
 #TODO make sure the user picks a choice
-result=$(gpu_feedback_menu "tourusknot")
+result=$(gpu_feedback_menu "openvg1")
 stat=$(current_status "" $(get_feedback_status "${result}") )
 
 ask_continue $(if_failure ${stat})
