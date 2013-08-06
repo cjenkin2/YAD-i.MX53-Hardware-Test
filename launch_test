@@ -2,9 +2,12 @@
 
 . ./functions
 
+TEST_NAME=2
+RESULT_STATUS=3
+
 main_menu()
 {
-	yad --title="${DEFAULT_TITLE}" --list --print-column=2 \
+	yad --title="${DEFAULT_TITLE}" --list \
 --column=icon:IMG --column=Test --column=Status --column=@fore@ \
 $(mk_menu_body main_menu.dat config_main_menu_item)
 }
@@ -21,7 +24,21 @@ do
 	ask_continue # hacky but it works
 
 	if [ ! -z "${menu_item}" ]; then
-		choice=$(parse_item ${menu_item})
+		choice=$(parse_item ${TEST_NAME} ${menu_item})
+		old_stat=$(parse_item ${RESULT_STATUS} ${menu_item})
+
+		if [ ! -z "${old_stat}" ] && [ ! "${old_stat}" = "Incomplete" ]
+		then
+			yad --text="This test has already been run, with status ${old_stat}. \
+Would you like to run it again?"
+			ans=$?
+
+			if close_menu ${ans}
+			then
+				continue
+			fi
+		fi
+
 		cd ${choice}; status=$(./launch); cd ..
 		echo "Result is: ${status}"
 

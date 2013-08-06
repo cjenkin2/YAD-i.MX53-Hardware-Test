@@ -266,5 +266,8 @@ update_test_status()
 
 parse_item()
 {
-	echo ${1} | cut -d"|" -f1
+	local item_num="${1}"
+	local menu_result="${2}"
+
+	echo "${menu_result}" | cut -d"|" -f"${item_num}"
 }
