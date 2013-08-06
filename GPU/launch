@@ -67,7 +67,7 @@ result=$(gpu_feedback_menu "gles1")
 stat=$(current_status ${stat} $(get_feedback_status "${result}") )
 
 ask_continue $(if_failure ${stat})
-ask_continue $(txtmenu_from_file GPU_pg3.txt)
+ask_continue $(txtmenu_from_file GPU_pg4.txt)
 
 GLES2_TESTS="./torusknot simple_draw"
 

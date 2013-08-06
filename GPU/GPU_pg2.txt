@@ -1,1 +1,3 @@
-The following test will show a scrolling torus (geometric figure that looks like a weird knot)
+	The following test will show two windows featuring a tiger.
+
+	The first should be rotating against a blue background; the second should be stationary against a grey background
