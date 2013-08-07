@@ -33,7 +33,7 @@ ask_continue()
 
 	if close_menu ${btn}
 	then
-		exit 0
+		exit 1
 	fi
 }
 

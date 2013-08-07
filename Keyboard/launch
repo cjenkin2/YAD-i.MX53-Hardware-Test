@@ -10,18 +10,20 @@ do
 	input=$(yad --text-info --editable --text="${PANGRAM}")
 
 	res=$(yad --form --field="Please confirm the following: you were asked to type":LBL --field="${PANGRAM}":LBL --field="and with the keyboard you typed":LBL --field="${input}":LBL)
-	btn=$?
 
-	if [ ${btn} = 0 ]
+	if $(ask_continue) # this function is getting abused...
 	then
-		if [[ "${input}" = ${PANGRAM} ]]
-		then
-			yad --text="Success"
-			echo "Success"
-		else
-			yad --text="Failure"
-			echo "Failure"
-		fi
-		exit 0	
+		log "User asked to type:\n${PANGRAM}\nUser response is:\n${input}"
+
+        if [[ "${input}" = ${PANGRAM} ]]
+        then
+            yad --text="Success"
+            echo "Success"
+        else
+            yad --text="Failure"
+            echo "Failure"
+        fi
+
+		break
 	fi
 done
