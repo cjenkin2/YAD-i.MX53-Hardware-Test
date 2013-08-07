@@ -18,7 +18,7 @@ launch_test()
 {
 	if [ ! -z "${old_stat}" ] && [ ! "${old_stat}" = "Incomplete" ]
 	then
-		ask_continue $(yad --text="This test has already been run, \
+		ask_continue $(yad_default_menu --text="This test has already been run, \
 with status \"${old_stat}\".\n\n\
 Please review the log file below and then decide \
 if you would you like to run this test again." \
