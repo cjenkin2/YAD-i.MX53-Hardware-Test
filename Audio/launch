@@ -11,10 +11,8 @@ audio_feedback_menu()
 {
 	local stage=${1}
 
-	yad ${FEEDBACK_MENU} \
-"" "No audio" "audio_none ${stage}" \
-"" "Problem with Audio" "audio_problem ${stage}" \
-"" "Audio Playback OK" "audio_good ${stage}"
+	log "After running stage ${stage}"
+	log_default_feedback audio_feedback.menu
 }
 
 audio_good()

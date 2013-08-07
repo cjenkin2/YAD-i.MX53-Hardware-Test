@@ -7,7 +7,7 @@ RESULT_STATUS=3
 
 main_menu()
 {
-	yad --title="${DEFAULT_TITLE}" --list \
+	yad_default_menu --list \
 --column=icon:IMG --column=Test --column=Status --column=@fore@ \
 $(mk_menu_body main_menu.dat config_main_menu_item)
 }

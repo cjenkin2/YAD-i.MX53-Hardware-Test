@@ -6,10 +6,10 @@ PANGRAM="Sphinx of black quartz, judge my vow."
 
 while :
 do
-	ask_continue $(yad --text="$(cat Keyboard_pg1.txt)")
-	input=$(yad --text-info --editable --text="${PANGRAM}")
+	ask_continue $(txtmenu_from_file Keyboard_pg1.txt)
+	input=$(yad_default_menu --text-info --editable --text="${PANGRAM}")
 
-	res=$(yad --form --field="Please confirm the following: you were asked to type":LBL --field="${PANGRAM}":LBL --field="and with the keyboard you typed":LBL --field="${input}":LBL)
+	res=$(yad_default_menu --form --field="Please confirm the following: you were asked to type":LBL --field="${PANGRAM}":LBL --field="and with the keyboard you typed":LBL --field="${input}":LBL)
 
 	if $(ask_continue) # this function is getting abused...
 	then
@@ -17,10 +17,10 @@ do
 
         if [[ "${input}" = ${PANGRAM} ]]
         then
-            yad --text="Success"
+            yad_stat_menu "Success"
             echo "Success"
         else
-            yad --text="Failure"
+            yad_stat_menu "Failure"
             echo "Failure"
         fi
 

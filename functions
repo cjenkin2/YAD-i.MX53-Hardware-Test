@@ -2,17 +2,40 @@
 
 # buttons
 
-CANCEL_BTN="1"
-CLOSE_BTN="252"
-OK_BTN="0"
+CANCEL_BTN=1
+CLOSE_BTN=252
+OK_BTN=0
 
 # menu options
 
 DEFAULT_TITLE="Genesi i.MX53 Hardware Tests"
+DEFAULT_WIDTH=350
+DEFAULT_HEIGHT=250
 MAIN_MENU="--title=${DEFAULT_TITLE} --list --print-column=2 --column=icon:IMG --column=Test --column=Status --column=@fore@"
-FEEDBACK_MENU="--list --column=:RD --column=Status --column=Action:HD"
+FEEDBACK_MENU="--title=${DEFAULT_TITLE} --width=${DEFAULT_WIDTH} --list --column=:RD --column=Status --column=Action:HD"
 
 # general functions
+
+yad_default_menu()
+{
+	yad --title="${DEFAULT_TITLE}" \
+--width=${DEFAULT_WIDTH} --height=${DEFAULT_HEIGHT} "$@"
+}
+
+yad_default_feedback_menu()
+{
+	yad_default_menu --list \
+--column=:RD --column=Status --column=Action:HD \
+"$@"
+}
+
+yad_stat_menu()
+{
+	local stat=${1}
+
+	yad --title="${DEFAULT_TITLE}" --width=${DEFAULT_WIDTH} \
+--text=${stat}
+}
 
 txtmenu_from_file()
 {
@@ -24,7 +47,7 @@ txtmenu_from_file()
 		title="${DEFAULT_TITLE}"
 	fi
 
-	yad --title="${title}" --text="$(cat ${file})"
+	 yad --title="${title}" --text="$(cat ${file})"
 }
 
 ask_continue()
@@ -43,35 +66,12 @@ if_failure()
 
 	if [ "${stat}" = "Failure" ]
 	then
-		yad --text="The previous test ended in failure. Would you like to continue?"
+		yad_default_menu \
+--text="The previous test ended in failure. Would you like to continue?"
 		return $?
 	else
 		return 0
 	fi
-}
-
-progress_view_deprc()
-{
-	local ttime=${1}
-	local title=${2}
-	local text=${3}
-
-	if [ -z "${title}" ]
-	then
-		title="${DEFAULT_TITLE}"
-	fi
-	
-	if [ -z "${text}" ]
-	then
-		text="Test in progress. Please wait."
-	fi
-
-	for i in $(seq 1 $ttime)
-	do
-		sleep 1
-		echo "100*${i}/${ttime}" | bc -l
-	done | yad --title="${title}" --progress --auto-close --text="${text}"
-
 }
 
 progress_view_dummy()
@@ -116,7 +116,8 @@ progress_view()
 		fi
 
 		echo "100 * (${SECONDS} - ${start_time}) / ${ttime}" | bc -l
-	done | yad --title="${title}" --progress --text="${text}" ${opts}
+	done | yad --title="${title}" --width=${DEFAULT_WIDTH} \
+--progress --text="${text}" ${opts}
 }
 
 # when time unknown but on step complete can read from stdin
@@ -147,28 +148,8 @@ progress_view_steps()
 		read line
 		#echo "#${line}" | cut -c 1-100 | tee -a ./log # still dirty, still working
 		echo "100 * (${i} / ${steps})" | bc -l
-	done | yad --title="${title}" --progress --text="${text}" ${opts}
-}
-
-progress_view_live_deprc()
-{
-	local title=${2}
-	local text=${3}
-
-	if [ -z "${title}" ]
-	then
-		title="${DEFAULT_TITLE}"
-	fi
-	
-	if [ -z "${text}" ]
-	then
-		text="Test in progress. Please wait."
-	fi
-
-	while read line
-	do
-		echo "#${line}"
-	done | yad --title="${title}" --progress --autoclose --text="${text}" --enable-log > /dev/null 2>&1
+	done | yad --title="${title}" --width=${DEFAULT_WIDTH} \
+--progress --text="${text}" ${opts}
 }
 
 continue_after_failure()
@@ -178,7 +159,7 @@ continue_after_failure()
 
 	if [ ${stat} = "Failure" ]
 	then
-	    res=$(yad --text="The previoius test ended in failure. Would you like to continue?")
+	    res=$(yad_default_menu --text="The previoius test ended in failure. Would you like to continue?")
 	fi
 
 	return ${res}
@@ -275,7 +256,7 @@ log_default_feedback()
 {
 	local options_filename="${1}"
 
-	local res=$(yad ${FEEDBACK_MENU} --rest="${options_filename}")
+	local res=$(yad_default_feedback_menu --rest="${options_filename}")
 
 	log "User feedback:\n${res}"
 	echo "${res}"
@@ -289,7 +270,7 @@ log_default_describe_problem()
 	form_fields="${form_fields} --field=${2}:CHK FALSE"
 	form_fields="${form_fields} --field=${3}:CHK FALSE"
 
-	local res=$(yad --text="Please select the most appropriate" --form \
+	local res=$(yad_default_menu --text="Please select the most appropriate" --form \
 ${form_fields} \
 --field="Leave any additional comments below":TXT)
 

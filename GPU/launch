@@ -8,10 +8,9 @@ gpu_feedback_menu()
 {
 	local stage=${1}
 
-	yad ${FEEDBACK_MENU} \
-"" "No graphics displayed" "gpu_none ${stage}" \
-"" "Problem with graphics" "gpu_problem ${stage}" \
-"" "Graphics display OK" "gpu_good ${stage}" 
+	log "After running stage ${stage}"
+
+	log_default_feedback gpu_feedback.menu
 }
 
 gpu_none()
