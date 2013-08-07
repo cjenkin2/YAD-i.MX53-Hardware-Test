@@ -1,3 +1,5 @@
 #!/bin/bash
 
-yad
+. ../functions
+
+ask_continue $(textmenu_from_file SSD_pg1.txt)

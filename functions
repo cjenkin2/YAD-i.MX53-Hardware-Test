@@ -119,6 +119,37 @@ progress_view()
 	done | yad --title="${title}" --progress --text="${text}" ${opts}
 }
 
+# when time unknown but on step complete can read from stdin
+progress_view_steps()
+{
+	local steps=${1}
+	local title=${2}
+	local text=${3}
+	
+	shift 3
+
+	local opts="$@"
+
+	local start_time=${SECONDS}
+
+    if [ -z "${title}" ]
+    then
+        title="${DEFAULT_TITLE}"
+    fi
+
+    if [ -z "${text}" ]
+    then
+        text="Test in progress. Please wait."
+    fi
+
+	for i in $(seq 1 ${steps})
+	do
+		read line
+		echo "#${line}" | tee -a ./log # still dirty, still working
+		echo "100 * (${i} / ${steps})" | bc -l
+	done | yad --title="${title}" --progress --text="${text}" ${opts}
+}
+
 progress_view_live_deprc()
 {
 	local title=${2}
