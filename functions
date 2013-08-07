@@ -77,12 +77,13 @@ progress_view_deprc()
 progress_view_dummy()
 {
 	local ttime=${1}
+	local opts="$@"
 
 	for i in $(seq 1 $ttime)
 	do
 		sleep 1
 		echo ""
-	done
+	done | progress_view ${ttime} "" "" ${opts}
 }
 
 progress_view()

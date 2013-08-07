@@ -46,8 +46,8 @@ ask_continue
 
 log "${res}"
 
-log "$(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1 & \
-progress_view_dummy ${PINKNOISE_TIME} | progress_view ${PINKNOISE_TIME} '' '' --auto-close)"
+progress_view_dummy ${PINKNOISE_TIME} --auto-close &
+log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
 
 # TODO make sure the user picks a choice
 result=$(audio_feedback_menu "pink_noise"); ask_continue
@@ -56,8 +56,8 @@ stat=$(current_status "" $(get_feedback_status "${result}") )
 ask_continue $(if_failure ${stat})
 ask_continue $(txtmenu_from_file Audio_pg2.txt)
 
-log "$(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1 & \
-progress_view_dummy ${PINKNOISE_TIME} | progress_view ${BEETHOVEN_TIME} '' '' --auto-close)"
+progress_view_dummy ${BEETHOVEN_TIME} --auto-close &
+log $(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1)
 
 result=$(audio_feedback_menu "mp3_playback")
 stat=$(current_status ${stat} $(get_feedback_status "${result}") )
@@ -68,8 +68,8 @@ ask_continue $(txtmenu_from_file Audio_pg3.txt)
 timeout ${RECORD_TIME} sox -t alsa default ./recording.wav 2>&1 | tr \\r \\n | progress_view ${RECORD_TIME} '' '' --enable-log --log-expanded
 
 # play it back
-log $(aplay ./recording.wav) &
-progress_view_dummy ${RECORD_TIME} | progress_view ${RECORD_TIME} '' '' --auto-close
+log "$(aplay ./recording.wav 2>&1)" &
+progress_view_dummy ${RECORD_TIME} --auto-close
 
 result=$(audio_feedback_menu "recording")
 stat=$(current_status ${stat} $(get_feedback_status "${result}"))
