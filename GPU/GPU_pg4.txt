@@ -1,0 +1,3 @@
+	The following test will display two moving geometric figures.
+
+	The first figure is a 'torus' (geometric figure that will render as a 3D knot) that scrolls from right to left; the second figure is a spinning triangle with gradients of yellow, orange and red.
