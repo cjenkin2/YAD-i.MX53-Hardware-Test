@@ -41,7 +41,7 @@ if_failure()
 {
 	local stat=${1}
 
-	if [ ${stat} = "Failure" ]
+	if [ "${stat}" = "Failure" ]
 	then
 		yad --text="The previous test ended in failure. Would you like to continue?"
 		return $?

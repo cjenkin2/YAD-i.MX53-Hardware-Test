@@ -36,11 +36,20 @@ audio_none()
 
 ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
+res=$(yad --title="${DEFAULT_TITLE}" \
+--text="Please select your audio output device" \
+--list --column="":RD --column="Device" \
+FALSE Headphones \
+TRUE "Built-in Speakers")
+ask_continue
+
+log "${res}"
+
 log "$(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1 & \
 progress_view_dummy ${PINKNOISE_TIME} | progress_view ${PINKNOISE_TIME} '' '' --auto-close)"
 
 # TODO make sure the user picks a choice
-result=$(audio_feedback_menu "pink_noise")
+result=$(audio_feedback_menu "pink_noise"); ask_continue
 stat=$(current_status "" $(get_feedback_status "${result}") )
 
 ask_continue $(if_failure ${stat})
