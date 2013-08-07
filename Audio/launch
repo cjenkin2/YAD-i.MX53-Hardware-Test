@@ -4,6 +4,7 @@
 
 PINKNOISE_TIME=10
 BEETHOVEN_TIME=10
+RECORD_TIME=10
 
 # TODO make sure user actually picks an option!
 audio_feedback_menu()
@@ -60,5 +61,17 @@ progress_view_dummy ${PINKNOISE_TIME} | progress_view ${BEETHOVEN_TIME} '' '' --
 
 result=$(audio_feedback_menu "mp3_playback")
 stat=$(current_status ${stat} $(get_feedback_status "${result}") )
+
+ask_continue $(if_failure ${stat})
+ask_continue $(txtmenu_from_file Audio_pg3.txt)
+
+timeout ${RECORD_TIME} sox -t alsa default ./recording.wav 2>&1 | tr \\r \\n | progress_view ${RECORD_TIME} '' '' --enable-log --log-expanded
+
+# play it back
+log $(aplay ./recording.wav) &
+progress_view_dummy ${RECORD_TIME} | progress_view ${RECORD_TIME} '' '' --auto-close
+
+result=$(audio_feedback_menu "recording")
+stat=$(current_status ${stat} $(get_feedback_status "${result}"))
 
 echo ${stat}
