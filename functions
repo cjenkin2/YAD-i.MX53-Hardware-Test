@@ -1,19 +1,5 @@
 #!/bin/bash
 
-# yad
-
-# UGLY HACK IS UGLY
-if [ -e ./bin/yad ]
-then
-	PATH="${PATH}:$(pwd)/bin"
-elif [ -e ../bin/yad ]
-then
-	PATH="${PATH}:$(pwd)/../bin"
-else
-	echo "WARNING: yad not available"
-	exit 1
-fi
-
 # buttons
 
 CANCEL_BTN="1"
@@ -84,7 +70,7 @@ progress_view_deprc()
 	do
 		sleep 1
 		echo "100*${i}/${ttime}" | bc -l
-	done | ${yad} --title="${title}" --progress --auto-close --text="${text}"
+	done | yad --title="${title}" --progress --auto-close --text="${text}"
 
 }
 
@@ -247,6 +233,23 @@ log()
 	local logfile="$(pwd)/log"
 
 	echo $(date "+[%H:%M:%S] ${msg}") >> ${logfile}
+}
+
+log_default_describe_problem()
+{
+	# TODO generalize to more than 3!
+
+	local form_fields="--field=${1}:CHK FALSE"
+	form_fields="${form_fields} --field=${2}:CHK FALSE"
+	form_fields="${form_fields} --field=${3}:CHK FALSE"
+
+	local res=$(yad --text="Please select the most appropriate" --form \
+${form_fields} \
+--field="Leave any additional comments below":TXT)
+
+	log "\nUser asked to describe problem:"
+	log "${form_fields}"
+	log "${res}"
 }
 
 # main menu functions

@@ -24,11 +24,7 @@ audio_good()
 
 audio_problem()
 {
-	local res=$(yad --text="Please select the most appropriate" --form \
---field=Skipping:CHK FALSE \
---field=Distortion:CHK FALSE \
---field=Other:CHK FALSE \
---field="Leave any comments below":TXT)
+	log_default_describe_problem "Skipping" "Distortion" "Other"
 
 	echo "Failure"
 }
