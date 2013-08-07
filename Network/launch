@@ -34,7 +34,7 @@ then
 fi
 
 log "Running ping test on ${url}"
-ping -w ${PING_TIME} ${url} | progress_view ${PING_TIME} "" "" --enable-log --log-expanded
+ping -w ${PING_TIME} ${url} 2>&1 | progress_view ${PING_TIME} "" "" --enable-log --log-expanded
 
 result=$(network_feedback_menu "ping")
 stat=$(current_status "" $(get_feedback_status "${result}") )

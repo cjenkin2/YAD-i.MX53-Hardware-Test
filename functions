@@ -109,7 +109,11 @@ progress_view()
 
 	while read line
 	do
-		echo "#${line}" | tee -a ./log # dirty but gets the job done
+		if [ ! -z "${line}" ] # coming from dummy
+		then
+			echo "#${line}" | tee -a ./log # dirty but gets the job done
+		fi
+
 		echo "100 * (${SECONDS} - ${start_time}) / ${ttime}" | bc -l
 	done | yad --title="${title}" --progress --text="${text}" ${opts}
 }

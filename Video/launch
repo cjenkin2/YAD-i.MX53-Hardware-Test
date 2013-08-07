@@ -1,3 +1,43 @@
 #!/bin/bash
 
-yad
+. ../functions
+
+CLIP_TIME=32
+
+video_feedback_menu()
+{
+	stage=${1}
+
+	log "After running stage ${stage}"
+	log_default_feedback video_feedback.menu
+}
+
+video_none()
+{
+	log "No video dislayed. We should probably do thorough gstreamer tests here"
+
+	echo "Failure"
+}
+
+video_problem()
+{
+	log_default_describe_problem "Skipping" "Scrolling" "Color" \
+"Freezing" "Other"
+
+	echo "Failure"
+}
+
+video_good()
+{
+	echo "Success"
+}
+
+ask_continue $(txtmenu_from_file Video_pg1.txt)
+
+timeout ${CLIP_TIME} totem vid.avi &
+progress_view_dummy ${CLIP_TIME} | progress_view ${CLIP_TIME} '' '' --auto-close
+
+result=$(video_feedback_menu "play_clip")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+echo "${stat}"
