@@ -109,7 +109,7 @@ progress_view()
 
 	while read line
 	do
-		echo "#${line}"
+		echo "#${line}" | tee -a ./log # dirty but gets the job done
 		echo "100 * (${SECONDS} - ${start_time}) / ${ttime}" | bc -l
 	done | yad --title="${title}" --progress --text="${text}" ${opts}
 }
@@ -232,7 +232,17 @@ log()
 	local msg="${1}"
 	local logfile="$(pwd)/log"
 
-	echo $(date "+[%H:%M:%S] ${msg}") >> ${logfile}
+	echo -e $(date "+[%H:%M:%S] ${msg}") >> ${logfile}
+}
+
+log_default_feedback()
+{
+	local options_filename="${1}"
+
+	local res=$(yad ${FEEDBACK_MENU} --rest="${options_filename}")
+
+	log "User feedback:\n${res}"
+	echo "${res}"
 }
 
 log_default_describe_problem()
