@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. ../functions
+
+LOREM_COUNT=240000 # IMPORTANT DO NOT CHANGE
+
+md5_equal()
+{
+	local res=$(./md5sum_compare lorem_ipsum_itero.md5 lorem_ipsum_itero.txt | cut -d" " -f2)
+
+	if [ "${res}" = "FAILED" ]
+	then
+		echo "Failure"
+	else
+		echo "Success"
+	fi
+}
+
+ask_continue $(txtmenu_from_file SSD_pg1.txt)
+
+zcat loremipsum.txt.gz | pv > loremipsum.txt 2> >(progress_view 1 "" "Test in progress. Progress bar unavailable" --auto-close)

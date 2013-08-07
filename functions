@@ -145,7 +145,7 @@ progress_view_steps()
 	for i in $(seq 1 ${steps})
 	do
 		read line
-		echo "#${line}" | tee -a ./log # still dirty, still working
+		#echo "#${line}" | cut -c 1-100 | tee -a ./log # still dirty, still working
 		echo "100 * (${i} / ${steps})" | bc -l
 	done | yad --title="${title}" --progress --text="${text}" ${opts}
 }

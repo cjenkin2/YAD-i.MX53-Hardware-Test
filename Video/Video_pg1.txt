@@ -1,0 +1,5 @@
+This is a test of the i.MX53 Video Processing Unit (VPU). It will play a 30-second video using Totem (the default video player) which depicts three small rodents bullying a very large rabbit.
+
+NOTE: This video has no sound, so please do not report lack of audio as an error.
+
+To continue, press 'OK'. To return to the main menu, press 'Cancel'.
