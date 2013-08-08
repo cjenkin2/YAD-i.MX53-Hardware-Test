@@ -12,7 +12,8 @@ res=$(get_audio_output_device); ask_continue; log "${res}"
 timeout ${RECORD_TIME} \
 sox -t alsa default ./recording.wav 2>&1 | \
 tr \\r \\n | \
-progress_view ${RECORD_TIME} '' '' --enable-log --log-expanded
+progress_view ${RECORD_TIME} '' '' \
+--enable-log --log-expanded --auto-close
 
 # play it back
 log "$(aplay ./recording.wav 2>&1)" &

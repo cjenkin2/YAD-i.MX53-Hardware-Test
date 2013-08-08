@@ -50,7 +50,8 @@ update_test_status()
         read stat_line
         read color_line
 
-        if [ "${test_line}" = "${testName}" ]
+        if [ "${test_line}" = "${testName}" ] && \
+[ ! "${sstatus}" = "Incomplete" ]
         then
             local new_icon_color="$(get_icon_and_color \
 ${sstatus})"
