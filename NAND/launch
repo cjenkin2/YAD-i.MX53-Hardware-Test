@@ -21,13 +21,11 @@ md5sum_equal()
 
 ask_continue $(txtmenu_from_file SSD_pg1.txt)
 
-zcat loremipsum.txt.gz | pv > loremipsum.txt 2> >(progress_view 1 "" "Test in progress. Progress bar unavailable" --auto-close)
+zcat loremipsum.txt.gz | pv > loremipsum.txt 2> >(progress_view 1 "" "Unzipping file. Progress bar unavailable" --auto-close)
 
-stat=$(md5sum_equal)
+stat=$(md5sum_equal | tee >(progress_view 1 "" "Checking md5sum. Progress bar unavailable") )
 
 # be nice
 rm loremipsum.txt
-
-ask_continue $(yad_default_menu --text=${stat})
 
 echo ${stat}
