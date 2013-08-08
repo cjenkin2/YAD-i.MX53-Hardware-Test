@@ -277,13 +277,16 @@ log_default_feedback()
 
 log_default_describe_problem()
 {
-	# TODO generalize to more than 3!
+	local form_fields=""
 
-	local form_fields="--field=${1}:CHK FALSE"
-	form_fields="${form_fields} --field=${2}:CHK FALSE"
-	form_fields="${form_fields} --field=${3}:CHK FALSE"
+	while [ ! $# -eq 0 ]
+	do
+		form_fields="${form_fields} --field=${1}:CHK FALSE"
+		shift 1
+	done
 
-	local res=$(yad_default_menu --text="Please select the most appropriate" --form \
+	local res=$(yad_default_menu \
+--text="Please select the most appropriate" --form \
 ${form_fields} \
 --field="Leave any additional comments below":TXT)
 
