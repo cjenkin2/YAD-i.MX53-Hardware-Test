@@ -1,7 +1,9 @@
 Audio - MP3 Playback
 Audio - Pink Noise
 Audio - Recording
-GPU
+GPU - GLES1
+GPU - GLES2
+GPU - VG1
 Keyboard
 NAND
 Network

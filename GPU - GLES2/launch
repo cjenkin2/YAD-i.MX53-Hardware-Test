@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. ../functions
+. ../gpu_functions
+
+GLES2_TESTS="./torusknot simple_draw"
+
+ask_continue $(txtmenu_from_file GPU_pg1.txt)
+ask_continue $(txtmenu_from_file GPU_pg2.txt)
+
+for ttest in ${GLES2_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
+
+result=$(gpu_feedback_menu "gles2")
+stat=$(current_status '' $(get_feedback_status "${result}") )
+
+echo ${stat}

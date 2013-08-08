@@ -1,0 +1,3 @@
+	This is a test of the i.MX53 Graphics Processing Unit (GPU); it will cover several graphics libraries (such as OpenVG and OpenGL2). Each sub-test will display a pop-up window with some graphical animation from one of the available libraries that will close after a short period of time. After these you will be asked to report any problems or errors with the animation.
+
+To begin, press 'OK'. To return to the main menu, press 'Cancel'.

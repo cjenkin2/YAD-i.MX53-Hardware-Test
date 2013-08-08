@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. ../functions
+. ../gpu_functions
+
+#dpkg -L libopenvg1-imx-demos
+OPENVG1_TESTS="tiger tiger_ri"
+
+ask_continue $(txtmenu_from_file GPU_pg1.txt)
+ask_continue $(txtmenu_from_file GPU_pg2.txt)
+
+for ttest in ${OPENVG1_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
+
+result=$(gpu_feedback_menu "openvg1")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+echo ${stat}

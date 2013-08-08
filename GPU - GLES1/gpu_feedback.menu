@@ -1,9 +1,9 @@
 
 No graphics displayed
-gpu_none
+result_none
 
 Problem with graphics
 gpu_problem
 
 Graphics display OK
-gpu_good
+result_good

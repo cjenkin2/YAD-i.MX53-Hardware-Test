@@ -1,0 +1,1 @@
+	The following test will show a lit rotating cube with flowers on all of its sides.

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. ../functions
+. ../gpu_functions
+
+GLES1_TESTS="es11ex"
+
+ask_continue $(txtmenu_from_file GPU_pg1.txt)
+ask_continue $(txtmenu_from_file GPU_pg2.txt)
+
+for ttest in ${GLES1_TESTS}
+do
+	run_gpu_test "${ttest}"
+done
+
+result=$(gpu_feedback_menu "gles1")
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+echo ${stat}
