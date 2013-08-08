@@ -28,6 +28,6 @@ stat=$(md5sum_equal)
 # be nice
 rm loremipsum.txt
 
-ask_continue $(yad --text=${stat})
+ask_continue $(yad_default_menu --text=${stat})
 
 echo ${stat}
