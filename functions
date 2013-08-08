@@ -289,6 +289,7 @@ log_default_feedback()
 log_default_describe_problem()
 {
 	local form_fields=""
+	local res=""
 
 	while [ ! $# -eq 0 ]
 	do
@@ -296,10 +297,11 @@ log_default_describe_problem()
 		shift 1
 	done
 
-	local res=$(yad_default_menu \
+	# TODO harder to make sure the user selects one
+	res=$(yad_default_menu \
 --text="Please select the most appropriate" --form \
 ${form_fields} \
---field="Leave any additional comments below":TXT)
+--field="Leave any additional comments below":TXT)a
 
 	log "\nUser asked to describe problem:"
 	log "${form_fields}"
