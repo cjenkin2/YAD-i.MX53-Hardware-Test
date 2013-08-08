@@ -4,3 +4,12 @@ audio_problem()
 {
 	result_problem "Skipping" "Distortion" "Other"
 }
+
+get_audio_output_device()
+{
+	yad_default_menu \
+--text="Please select your audio output device" \
+--list --column="":RD --column="Device" \
+FALSE Headphones \
+TRUE "Built-in Speakers"
+}

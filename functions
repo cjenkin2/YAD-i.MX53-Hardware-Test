@@ -308,7 +308,7 @@ log_default_feedback()
 
 	while :
 	do
-		res=$(yad_default_feedback_menu --rest="${options_filename}")
+		res=$(yad_default_feedback_menu --text="Please select the most appropriate" --rest="${options_filename}")
 
 		if [ -z "${res}" ]
 		then

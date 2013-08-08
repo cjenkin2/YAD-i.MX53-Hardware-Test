@@ -7,14 +7,7 @@ PINKNOISE_TIME=10
 
 ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
-res=$(yad_default_menu \
---text="Please select your audio output device" \
---list --column="":RD --column="Device" \
-FALSE Headphones \
-TRUE "Built-in Speakers")
-ask_continue
-
-log "${res}"
+res=$(get_audio_output_device); ask_continue; log "${res}"
 
 # actual test
 progress_view_dummy ${PINKNOISE_TIME} --auto-close &
