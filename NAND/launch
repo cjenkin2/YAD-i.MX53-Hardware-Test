@@ -25,6 +25,9 @@ zcat loremipsum.txt.gz | pv > loremipsum.txt 2> >(progress_view 1 "" "Test in pr
 
 stat=$(md5sum_equal)
 
+# be nice
+rm loremipsum.txt
+
 ask_continue $(yad --text=${stat})
 
 echo ${stat}

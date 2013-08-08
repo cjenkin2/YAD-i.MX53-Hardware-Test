@@ -20,6 +20,8 @@ gpu_none()
 
 gpu_problem()
 {
+	log_default_describe_problem "Color" "Flickering" "Other"
+
 	echo "Failure"
 }
 

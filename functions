@@ -296,11 +296,11 @@ ${form_fields} \
 config_main_menu_item()
 {
 	local hwtest=${1}
-	local status=${2}
+	local sstatus=${2}
 	local icon=""
 	local color=""
 
-	case ${status} in
+	case ${sstatus} in
 		Incomplete)
 			color="black"
 			icon="none"
@@ -323,16 +323,16 @@ config_main_menu_item()
 			;;
 	esac
 
-	echo ${icon} ${hwtest} ${status} ${color}
+	echo ${icon} ${hwtest} ${sstatus} ${color}
 }
 
 update_test_status()
 {
 	local testName=${1}
-	local status=${2}
+	local sstatus=${2}
 	local fileName=${3}
 
-	if [ -z "${status}" ]
+	if [ -z "${sstatus}" ]
 	then
 		exit 0
 	fi
@@ -341,7 +341,7 @@ update_test_status()
 	do
 		if [[ $line == ${testName}* ]]
 		then
-			echo "${testName} ${status}" >> tmp_menu_file
+			echo "${testName} ${sstatus}" >> tmp_menu_file
 		else
 			echo "${line}" >> tmp_menu_file
 		fi

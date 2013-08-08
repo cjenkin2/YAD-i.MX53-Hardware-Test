@@ -34,7 +34,7 @@ video_good()
 
 ask_continue $(txtmenu_from_file Video_pg1.txt)
 
-timeout ${CLIP_TIME} totem vid.avi &
+timeout ${CLIP_TIME} totem vid.avi > /dev/null 2>&1 &
 progress_view_dummy ${CLIP_TIME} '' '' --auto-close
 
 result=$(video_feedback_menu "play_clip")
