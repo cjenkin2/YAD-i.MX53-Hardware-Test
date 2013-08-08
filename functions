@@ -268,8 +268,19 @@ log()
 log_default_feedback()
 {
 	local options_filename="${1}"
+	local res=""
 
-	local res=$(yad_default_feedback_menu --rest="${options_filename}")
+	while :
+	do
+		res=$(yad_default_feedback_menu --rest="${options_filename}")
+
+		if [ -z "${res}" ]
+		then
+			yad_default_menu --text="Please select at least one option!"
+		else
+			break
+		fi
+	done
 
 	log "User feedback:\n${res}"
 	echo "${res}"

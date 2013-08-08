@@ -6,7 +6,6 @@ PINKNOISE_TIME=10
 BEETHOVEN_TIME=10
 RECORD_TIME=10
 
-# TODO make sure user actually picks an option!
 audio_feedback_menu()
 {
 	local stage=${1}
@@ -47,7 +46,6 @@ log "${res}"
 progress_view_dummy ${PINKNOISE_TIME} --auto-close &
 log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
 
-# TODO make sure the user picks a choice
 result=$(audio_feedback_menu "pink_noise"); ask_continue
 stat=$(current_status "" $(get_feedback_status "${result}") )
 
