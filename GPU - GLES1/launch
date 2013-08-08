@@ -6,7 +6,6 @@
 GLES1_TESTS="es11ex"
 
 ask_continue $(txtmenu_from_file GPU_pg1.txt)
-ask_continue $(txtmenu_from_file GPU_pg2.txt)
 
 for ttest in ${GLES1_TESTS}
 do

@@ -6,7 +6,6 @@
 GLES2_TESTS="./torusknot simple_draw"
 
 ask_continue $(txtmenu_from_file GPU_pg1.txt)
-ask_continue $(txtmenu_from_file GPU_pg2.txt)
 
 for ttest in ${GLES2_TESTS}
 do

@@ -1,3 +1,3 @@
-	This is a test of the i.MX53 Graphics Processing Unit (GPU); it will cover several graphics libraries (such as OpenVG and OpenGL2). Each sub-test will display a pop-up window with some graphical animation from one of the available libraries that will close after a short period of time. After these you will be asked to report any problems or errors with the animation.
+	This is one of three tests of the i.MX53 Graphics Processing Unit (GPU). This test covers the VG1 graphics libraries, and consists of two animations of a tiger's head. The first will spin against a blue background; the second will remain stationary against a grey background. Each animation should last ~10 seconds, after which you will be asked to report any problems.
 
-To begin, press 'OK'. To return to the main menu, press 'Cancel'.
+	To begin, press 'OK'. To return to the main menu, press 'Cancel'.

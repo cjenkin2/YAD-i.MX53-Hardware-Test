@@ -7,7 +7,6 @@
 OPENVG1_TESTS="tiger tiger_ri"
 
 ask_continue $(txtmenu_from_file GPU_pg1.txt)
-ask_continue $(txtmenu_from_file GPU_pg2.txt)
 
 for ttest in ${OPENVG1_TESTS}
 do
