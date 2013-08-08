@@ -32,7 +32,7 @@ run_gpu_test()
 {
 	local ttest="${1}"
 
-	progress_view_dummy ${GPU_TEST_TIME} | progress_view ${GPU_TEST_TIME} "" "" --auto-close &
+	progress_view_dummy ${GPU_TEST_TIME} "" "" --auto-close &
 	timeout ${GPU_TEST_TIME} "${ttest}" > /dev/null 2>&1
 }
 
