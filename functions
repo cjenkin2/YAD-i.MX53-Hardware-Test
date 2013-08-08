@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# yad hackery
+
+if [ -z "$(which yad)" ]
+then
+	if [ -e "./bin/yad" ]
+	then
+		PATH="${PATH}:./bin"
+	elif [ -e "../bin/yad" ]
+	then
+		PATH="${PATH}:../bin"
+	fi
+fi
+
 # buttons
 
 CANCEL_BTN=1
