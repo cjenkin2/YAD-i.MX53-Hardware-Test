@@ -1,16 +1,10 @@
 #!/bin/bash
 
 . ./functions
+. ./mainmenu_functions
 
 TEST_NAME=2
 RESULT_STATUS=3
-
-main_menu()
-{
-	yad_default_menu --list \
---column=icon:IMG --column=Test --column=Status --column=@fore@ \
---rest=main_menu.dat
-}
 
 # passing in what should be function arguments as global variables
 # this is bad and I feel bad

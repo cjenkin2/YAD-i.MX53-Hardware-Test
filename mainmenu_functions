@@ -1,0 +1,79 @@
+#!/bin/bash
+
+get_icon_and_color()
+{
+    local sstatus=${1}
+    local color=""
+    local icon=""
+
+    case ${sstatus} in
+        Incomplete)
+            color="black"
+            icon="none"
+            ;;
+        Failure)
+            color="red"
+            icon="failure.png"
+            ;;
+        Success)
+            color="green"
+            icon="success.png"
+            ;;
+        Mixed)
+            color="orange"
+            icon="mixed.png"
+            ;;
+        *)
+            color="purple"
+            icon="none"
+            ;;
+    esac
+
+    echo "${icon} ${color}"
+}
+
+update_test_status()
+{
+    local testName="${1}"
+    local sstatus=${2}
+    local fileName=${3}
+
+    if [ -z "${sstatus}" ]
+    then
+        exit 0
+    fi
+
+    # this is bad and I feel bad
+    while read icon_line
+    do # if there's one then there's 3 more
+        read test_line
+        read stat_line
+        read color_line
+
+        if [ "${test_line}" = "${testName}" ]
+        then
+            local new_icon_color="$(get_icon_and_color \
+${sstatus})"
+
+            echo "${new_icon_color}" | cut -d ' ' -f1
+            echo "${test_line}"
+            echo "${sstatus}"
+            echo "${new_icon_color}" | cut -d ' ' -f2
+        else
+            echo "${icon_line}"
+            echo "${test_line}"
+            echo "${stat_line}"
+            echo "${color_line}"
+        fi
+
+    done < ${fileName} > tmp_menu_file
+
+    mv tmp_menu_file ${fileName}
+}
+
+main_menu()
+{
+    yad_default_menu --list \
+--column=icon:IMG --column=Test --column=Status --column=@fore@ \
+--rest=main_menu.dat
+}

@@ -1,37 +1,9 @@
 #!/bin/bash
 
 . ../functions
+. ../audio_functions
 
 PINKNOISE_TIME=10
-BEETHOVEN_TIME=10
-RECORD_TIME=10
-
-audio_feedback_menu()
-{
-	local stage=${1}
-
-	log "After running stage ${stage}"
-	log_default_feedback audio_feedback.menu
-}
-
-audio_good()
-{
-	log "Audio successful"
-	echo "Success"
-}
-
-audio_problem()
-{
-	log_default_describe_problem "Skipping" "Distortion" "Other"
-
-	echo "Failure"
-}
-
-audio_none()
-{
-	log "No audio!"
-	echo "Failure"
-}
 
 ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
@@ -44,31 +16,11 @@ ask_continue
 
 log "${res}"
 
+# actual test
 progress_view_dummy ${PINKNOISE_TIME} --auto-close &
 log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
 
-result=$(audio_feedback_menu "pink_noise"); ask_continue
-stat=$(current_status "" $(get_feedback_status "${result}") )
-
-ask_continue $(if_failure ${stat})
-ask_continue $(txtmenu_from_file Audio_pg2.txt)
-
-progress_view_dummy ${BEETHOVEN_TIME} --auto-close &
-log $(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1)
-
-result=$(audio_feedback_menu "mp3_playback")
-stat=$(current_status ${stat} $(get_feedback_status "${result}") )
-
-ask_continue $(if_failure ${stat})
-ask_continue $(txtmenu_from_file Audio_pg3.txt)
-
-timeout ${RECORD_TIME} sox -t alsa default ./recording.wav 2>&1 | tr \\r \\n | progress_view ${RECORD_TIME} '' '' --enable-log --log-expanded
-
-# play it back
-log "$(aplay ./recording.wav 2>&1)" &
-progress_view_dummy ${RECORD_TIME} --auto-close
-
-result=$(audio_feedback_menu "recording")
-stat=$(current_status ${stat} $(get_feedback_status "${result}"))
+result=$(logged_feedback_menu "pink_noise" audio_feedback.menu); ask_continue
+stat=$(current_status "" $(get_feedback_status "${result}" ) )
 
 echo ${stat}

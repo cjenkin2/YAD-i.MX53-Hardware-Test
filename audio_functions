@@ -1,0 +1,6 @@
+#!/bin/bash
+
+audio_problem()
+{
+	result_problem "Skipping" "Distortion" "Other"
+}
