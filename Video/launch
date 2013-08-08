@@ -29,6 +29,7 @@ video_problem()
 
 video_good()
 {
+	log "Video test successful"
 	echo "Success"
 }
 

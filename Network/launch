@@ -14,6 +14,7 @@ network_feedback_menu()
 
 network_good()
 {
+	log "Network test successful"
 	echo "Success"
 }
 

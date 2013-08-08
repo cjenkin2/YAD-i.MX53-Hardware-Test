@@ -15,6 +15,7 @@ gpu_feedback_menu()
 
 gpu_none()
 {
+	log "No GPU graphics for test!"
 	echo "Failure"
 }
 
@@ -27,6 +28,8 @@ gpu_problem()
 
 gpu_good()
 {
+	log "GPU test success!"
+
 	echo "Success"
 }
 

@@ -16,7 +16,7 @@ audio_feedback_menu()
 
 audio_good()
 {
-	# TODO
+	log "Audio successful"
 	echo "Success"
 }
 
@@ -29,6 +29,7 @@ audio_problem()
 
 audio_none()
 {
+	log "No audio!"
 	echo "Failure"
 }
 

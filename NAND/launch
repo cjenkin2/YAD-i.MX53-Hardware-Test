@@ -13,8 +13,10 @@ md5sum_equal()
 
 	if [ "OK" = "${res}" ]
 	then
+		log "NAND test success"
 		echo "Success"
 	else
+		log "NAND test failed!"
 		echo "Failure"
 	fi 
 }
