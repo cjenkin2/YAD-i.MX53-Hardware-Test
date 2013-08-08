@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. ../functions
+. ../audio_functions
+
+BEETHOVEN_TIME=10
+
+ask_continue $(txtmenu_from_file Audio_pg1.txt)
+
+res=$(yad_default_menu \
+--text="Please select your audio output device" \
+--list --column="":RD --column="Device" \
+FALSE Headphones \
+TRUE "Built-in Speakers")
+ask_continue
+
+log "${res}"
+
+progress_view_dummy ${BEETHOVEN_TIME} --auto-close &
+log $(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1)
+
+result=$(logged_feedback_menu "mp3_playback" audio_feedback.menu)
+stat=$(current_status "" $(get_feedback_status "${result}") )
+
+echo "${stat}"
