@@ -37,7 +37,7 @@ do
 
 	if [ ! -z "${menu_item}" ]; then
 		choice=$(parse_item ${TEST_NAME} "${menu_item}")
-		old_stat=$(parse_item ${RESULT_STATUS} ${menu_item})
+		old_stat=$(parse_item ${RESULT_STATUS} "${menu_item}")
 
 		$(launch_test) > /dev/null
 	fi
