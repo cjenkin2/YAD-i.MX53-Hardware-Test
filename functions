@@ -259,9 +259,10 @@ init_test_log()
 
 	local logfile="$(pwd)/log"
 
-	echo "----------------------------------------" >> ${logfile}
-	date >> ${logfile}
-	echo "Logging for test $(basename $(pwd))"      >> ${logfile}
+	echo "----------------------------------------" >> "${logfile}"
+	date >> "${logfile}"
+	echo "Logging for test:"		>> "${logfile}"
+	echo $(basename "$(pwd)")		>> "${logfile}"
 }
 
 log()
@@ -269,7 +270,7 @@ log()
 	local msg="${1}"
 	local logfile="$(pwd)/log"
 
-	echo -e $(date "+[%H:%M:%S] ${msg}") >> ${logfile}
+	echo -e $(date "+[%H:%M:%S] ${msg}") >> "${logfile}"
 }
 
 log_default_feedback()
@@ -315,6 +316,7 @@ ${form_fields} \
 	log "${res}"
 }
 
+# main menu functions
 get_icon_and_color()
 {
 	local sstatus=${1}
@@ -345,73 +347,6 @@ get_icon_and_color()
 	esac
 
 	echo "${icon} ${color}"
-}
-
-# main menu functions
-config_main_menu_item()
-{
-	local hwtest=${1}
-	local sstatus=${2}
-	local icon=""
-	local color=""
-
-	case ${sstatus} in
-		Incomplete)
-			color="black"
-			icon="none"
-			;;
-		Failure)
-			color="red"
-			icon="failure.png"
-			;;
-		Success)
-			color="green"
-			icon="success.png"
-			;;
-		Mixed)
-			color="orange"
-			icon="mixed.png"
-			;;
-		*)
-			color="purple"
-			icon="none"
-			;;
-	esac
-
-	echo ${icon} ${hwtest} ${sstatus} ${color}
-}
-
-config_main_menu_new()
-{
-	local hwtest="${1}"
-	local sstatus=${2}
-	local icon=""
-	local color=""
-
-	case ${sstatus} in
-		Incomplete)
-			color="black"
-			icon="none"
-			;;
-		Failure)
-			color="red"
-			icon="failure.png"
-			;;
-		Success)
-			color="green"
-			icon="success.png"
-			;;
-		Mixed)
-			color="orange"
-			icon="mixed.png"
-			;;
-		*)
-			color="purple"
-			icon="none"
-			;;
-	esac
-
-	echo "${icon}|${hwtest}|${sstatus}|${color}"
 }
 
 update_test_status()

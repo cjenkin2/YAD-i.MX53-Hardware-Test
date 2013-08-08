@@ -25,9 +25,9 @@ if you would you like to run this test again." \
 --text-info --filename="${choice}/log" --wrap) > /dev/null
 	fi
 
-	cd ${choice}; init_test_log; status=$(./launch); cd ..;
+	cd "${choice}"; init_test_log; status=$(./launch); cd ..;
 
-	update_test_status ${choice} ${status} main_menu.dat
+	update_test_status "${choice}" ${status} main_menu.dat
 }
 
 if [ ! -e main_menu.dat ]
@@ -42,7 +42,7 @@ do
 	ask_continue > /dev/null # hacky but it works
 
 	if [ ! -z "${menu_item}" ]; then
-		choice=$(parse_item ${TEST_NAME} ${menu_item})
+		choice=$(parse_item ${TEST_NAME} "${menu_item}")
 		old_stat=$(parse_item ${RESULT_STATUS} ${menu_item})
 
 		$(launch_test) > /dev/null

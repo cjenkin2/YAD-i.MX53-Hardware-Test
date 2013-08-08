@@ -2,7 +2,7 @@
 
 while read line
 do
-	echo ''
+	echo 'none'
 	echo ${line}
 	echo "Incomplete"
 	echo "black"
