@@ -315,6 +315,38 @@ ${form_fields} \
 	log "${res}"
 }
 
+get_icon_and_color()
+{
+	local sstatus=${2}
+	local color=""
+	local icon=""
+
+	case ${sstatus} in
+		Incomplete)
+			color="black"
+			icon="none"
+			;;
+		Failure)
+			color="red"
+			icon="failure.png"
+			;;
+		Success)
+			color="green"
+			icon="success.png"
+			;;
+		Mixed)
+			color="orange"
+			icon="mixed.png"
+			;;
+		*)
+			color="purple"
+			icon="none"
+			;;
+	esac
+
+	echo "${icon} ${color}"
+}
+
 # main menu functions
 config_main_menu_item()
 {
@@ -349,9 +381,42 @@ config_main_menu_item()
 	echo ${icon} ${hwtest} ${sstatus} ${color}
 }
 
+config_main_menu_new()
+{
+	local hwtest="${1}"
+	local sstatus=${2}
+	local icon=""
+	local color=""
+
+	case ${sstatus} in
+		Incomplete)
+			color="black"
+			icon="none"
+			;;
+		Failure)
+			color="red"
+			icon="failure.png"
+			;;
+		Success)
+			color="green"
+			icon="success.png"
+			;;
+		Mixed)
+			color="orange"
+			icon="mixed.png"
+			;;
+		*)
+			color="purple"
+			icon="none"
+			;;
+	esac
+
+	echo "${icon}|${hwtest}|${sstatus}|${color}"
+}
+
 update_test_status()
 {
-	local testName=${1}
+	local testName="${1}"
 	local sstatus=${2}
 	local fileName=${3}
 
@@ -360,15 +425,36 @@ update_test_status()
 		exit 0
 	fi
 
-	while read line
-	do
-		if [[ $line == ${testName}* ]]
+	# this is bad and I feel bad
+	while read icon_line
+	do # if there's one then there's 3 more
+		read test_line
+		read stat_line
+		read color_line
+		
+		if [ "${test_line}" = "${testName}" ]
 		then
-			echo "${testName} ${sstatus}" >> tmp_menu_file
+			local new_icon_color="$(get_icon_and_color \
+${sstat})"
+
+			echo "${new_icon_color}" | cut -d ' ' -f1
+			echo "${test_line}"
+			echo "${sstatus}"
+			echo "${new_icon_color}" | cut -d ' ' -f2
 		else
-			echo "${line}" >> tmp_menu_file
+			echo "${icon_line}"
+			echo "${test_line}"
+			echo "${stat_line}"
+			echo "${color_line}"
 		fi
+		
+#		if [[ $line == ${testName}* ]]
+#		then
+#			echo "${testName} ${sstatus}" >> tmp_menu_file
+#		else
+#			echo "${line}" >> tmp_menu_file
+#		fi
 	done < ${fileName}
 
-	mv tmp_menu_file ${fileName}
+#	mv tmp_menu_file ${fileName}
 }
