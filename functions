@@ -69,6 +69,13 @@ ask_continue()
 
 	if close_menu ${btn}
 	then
+		if [ -z "${stat}" ] # this is bad and I should feel bad
+		then
+			echo "Incomplete"
+		else
+			echo "${stat}"
+		fi
+
 		exit 1
 	fi
 }

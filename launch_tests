@@ -22,7 +22,7 @@ launch_test()
 with status \"${old_stat}\".\n\n\
 Please review the log file below and then decide \
 if you would you like to run this test again." \
---text-info --filename="${choice}/log" --wrap)
+--text-info --filename="${choice}/log" --wrap) > /dev/null
 	fi
 
 	cd ${choice}; init_test_log; status=$(./launch); cd ..;
@@ -39,7 +39,7 @@ while :
 do
 	
 	menu_item=$(main_menu)
-	ask_continue # hacky but it works
+	ask_continue > /dev/null # hacky but it works
 
 	if [ ! -z "${menu_item}" ]; then
 		choice=$(parse_item ${TEST_NAME} ${menu_item})

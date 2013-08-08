@@ -18,11 +18,9 @@ do
         if [[ "${input}" = ${PANGRAM} ]]
         then
 			log "Keyboard test success"
-            yad_stat_menu "Success"
             echo "Success"
         else
 			log "Keyboard test failure!"
-            yad_stat_menu "Failure"
             echo "Failure"
         fi
 

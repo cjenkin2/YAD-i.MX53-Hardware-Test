@@ -25,7 +25,7 @@ ask_continue $(txtmenu_from_file NAND_pg1.txt)
 
 zcat loremipsum.txt.gz | pv > loremipsum.txt 2> >(progress_view 1 "" "Unzipping file. Progress bar unavailable" --auto-close)
 
-stat=$(md5sum_equal | tee >(progress_view 1 "" "Checking md5sum. Progress bar unavailable") )
+stat=$(md5sum_equal | tee >(progress_view 1 "" "Checking md5sum. Progress bar unavailable" --auto-close) )
 
 # be nice
 rm loremipsum.txt
