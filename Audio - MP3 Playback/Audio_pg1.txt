@@ -1,4 +1,3 @@
-	The following test will play a recording of the first few minutes of Beethoven's 5th Symphony.
-You will then be asked whether there were problems with audio playback.
+	This is one of three tests of the i.MX53 audio input / output systems. This test will play a recording of the first 10 seconds of Beethoven's 5th Symphony. You will then be asked if there were problems with audio playback.
 
-Press 'OK' to continue, 'Cancel' to return to the main menu.
+	Press 'OK' to continue, 'Cancel' to return to the main menu.

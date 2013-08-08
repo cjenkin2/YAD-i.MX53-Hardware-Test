@@ -1,5 +1,5 @@
-	The following test will record 10 seconds of audio from the default audio input device. Please speak or otherwise make some noise during this time (e.g. "Testing, testing 1 2 3.")
+	This is one of three tests of the i.MX53 audio input / output systems. This test will record 10 seconds of audio from the default audio input device. Please speak or otherwise make some noise during this time (e.g. "Testing, testing 1 2 3.")
 
-After 10 seconds have elapsed, the recorded audio will be played back to you. You will then be asked whether there were problems with the recording.
+	After 10 seconds have elapsed, the recorded audio will be played back to you. You will then be asked whether there were problems with the recording.
 
-Press 'OK' to continue, 'Cancel' to return to the main menu.
+	Press 'OK' to continue, 'Cancel' to return to the main menu.

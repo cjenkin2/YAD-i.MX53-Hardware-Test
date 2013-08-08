@@ -1,13 +1,4 @@
-	This is a test of the i.MX53 audio input / output systems. There are three parts to the test. You will be asked to report the results of each after each part finishes.
-
-    The first part will play 'pink' noise for ~12 seconds. Pink noise is designed to sound as though 
-no specific tone is being played. If you hear a distinct tone, or hear no noise at all, please report
-this as an error.
-
-    The second part will play a familiar sound clip. If the sound is distorted (or if there is no sound)
-please report this as an error.
-
-    The third and last part will record a short audio clip using the available audio input and then play
-the clip back. Pleae speak or make some noise when you are prompted.
+	This is one of three tests of the i.MX53 audio input / output systems. This test will play 'pink' noise for ~12 seconds. Pink noise is designed to sound as though 
+no specific tone is being played. If you hear a distinct tone, or hear no noise at all, please report this as an error.
 
     To begin, press 'OK'. To return to the main menu, press 'Cancel'
