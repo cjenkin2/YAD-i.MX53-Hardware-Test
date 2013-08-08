@@ -1,0 +1,16 @@
+#!/bin/bash
+
+GPU_TEST_TIME=10
+
+gpu_feedback_menu()
+{
+	log_default_feedback gpu_feedback.menu
+}
+
+run_gpu_test()
+{
+	local ttest="${1}"
+
+	progress_view_dummy ${GPU_TEST_TIME} "" "" --auto-close &
+	timeout ${GPU_TEST_TIME} "${ttest}" > /dev/null 2>&1
+}
