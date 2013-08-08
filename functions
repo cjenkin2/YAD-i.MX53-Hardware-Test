@@ -317,7 +317,7 @@ ${form_fields} \
 
 get_icon_and_color()
 {
-	local sstatus=${2}
+	local sstatus=${1}
 	local color=""
 	local icon=""
 
@@ -435,7 +435,7 @@ update_test_status()
 		if [ "${test_line}" = "${testName}" ]
 		then
 			local new_icon_color="$(get_icon_and_color \
-${sstat})"
+${sstatus})"
 
 			echo "${new_icon_color}" | cut -d ' ' -f1
 			echo "${test_line}"
@@ -448,13 +448,7 @@ ${sstat})"
 			echo "${color_line}"
 		fi
 		
-#		if [[ $line == ${testName}* ]]
-#		then
-#			echo "${testName} ${sstatus}" >> tmp_menu_file
-#		else
-#			echo "${line}" >> tmp_menu_file
-#		fi
-	done < ${fileName}
+	done < ${fileName} > tmp_menu_file
 
-#	mv tmp_menu_file ${fileName}
+	mv tmp_menu_file ${fileName}
 }
