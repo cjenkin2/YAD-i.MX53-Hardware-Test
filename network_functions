@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# requires functions
+
+get_url()
+{
+	local default_url="${1}"
+
+	local url=$(parse_item 1 $(yad_default_menu \
+--text="Please provide a URL below (default of ${default_url})" \
+--form --field="URL" \
+--timeout=15 --timeout-indicator=top)); ask_continue
+
+	if [ -z "${url}" ]
+	then
+		echo "${default_url}"
+	else
+		echo "${url}"
+	fi
+}
