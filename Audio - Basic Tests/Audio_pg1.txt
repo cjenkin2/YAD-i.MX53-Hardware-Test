@@ -1,4 +1,5 @@
-	This is one of three tests of the i.MX53 audio input / output systems. This test will play 'pink' noise for ~12 seconds. Pink noise is designed to sound as though 
-no specific tone is being played. If you hear a distinct tone, or hear no noise at all, please report this as an error.
+	This is one of three tests of the i.MX53 audio input / output systems. This tests has 4 parts, each lasting about 6 seconds. You will be asked to report any problems after each part.
+
+	The first part plays white noise; the second part plays 'pink-noise', which is like white noise but should sound quieter and more uniform; the third part is a sine wave playing at 440Hz; the last part will play the same frequency as the first but in ticks.
 
     To begin, press 'OK'. To return to the main menu, press 'Cancel'

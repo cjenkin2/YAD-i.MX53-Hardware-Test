@@ -3,17 +3,41 @@
 . ../functions
 . ../audio_functions
 
-PINKNOISE_TIME=10
+BASIC_TEST_TIME=6
+
+AUDIO_TESTS="white-noise pink-noise sine ticks"
+
+run_basic_test()
+{
+	local ttest="${1}"
+	local ttime="${2}"
+
+	progress_view_dummy ${ttime} --auto-close &
+	gst_output=$(timeout ${ttime} \
+gst-launch audiotestsrc wave=${ttest} ! alsasink 2>&1)
+	log "${gst_output}"
+
+	local result=$(logged_feedback_menu "${ttest}" audio_feedback.menu)
+	ask_continue
+
+	# UPDATING GLOBAL VARIABLES?!
+	stat=$(current_status "${stat}" $(get_feedback_status "${result}"))
+}
 
 ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
 res=$(get_audio_output_device); ask_continue; log "${res}"
 
-# actual test
-progress_view_dummy ${PINKNOISE_TIME} --auto-close &
-log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
+for ttest in ${AUDIO_TESTS}
+do
+	run_basic_test ${ttest} ${BASIC_TEST_TIME}
+done
 
-result=$(logged_feedback_menu "pink_noise" audio_feedback.menu); ask_continue
-stat=$(current_status "" $(get_feedback_status "${result}" ) )
+# actual test
+#progress_view_dummy ${PINKNOISE_TIME} --auto-close &
+#log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
+
+#result=$(logged_feedback_menu "pink_noise" audio_feedback.menu); ask_continue
+#stat=$(current_status "" $(get_feedback_status "${result}" ) )
 
 echo ${stat}
