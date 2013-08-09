@@ -10,9 +10,10 @@ ask_continue $(txtmenu_from_file Audio_pg1.txt)
 res=$(get_audio_output_device); ask_continue; log "${res}"
 
 progress_view_dummy ${RECORD_TIME} --auto-close &
-timeout ${RECORD_TIME} \
+playback_output=$(timeout ${RECORD_TIME} \
 gst-launch alsasrc ! audioconvert ! audioresample ! wavenc ! \
-filesink location=recording.wav
+filesink location=recording.wav)
+log "${playback_output}"
 
 # play it back
 play_output=$(gst-launch playbin2 uri=file://"$(pwd)"/recording.wav 2>&1) &
