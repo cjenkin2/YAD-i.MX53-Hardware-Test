@@ -24,6 +24,9 @@ OK_BTN=0
 DEFAULT_TITLE="Genesi i.MX53 Hardware Tests"
 DEFAULT_WIDTH=350
 DEFAULT_HEIGHT=250
+SCREEN_RIGHT=600
+SCREEN_TOP=0
+
 MAIN_MENU="--title=${DEFAULT_TITLE} --list --print-column=2 --column=icon:IMG --column=Test --column=Status --column=@fore@"
 FEEDBACK_MENU="--title=${DEFAULT_TITLE} --width=${DEFAULT_WIDTH} --list --column=:RD --column=Status --column=Action:HD"
 
@@ -137,7 +140,8 @@ progress_view()
 		fi
 
 		echo "100 * (${SECONDS} - ${start_time}) / ${ttime}" | bc -l
-	done | yad --title="${title}" --width=${DEFAULT_WIDTH} \
+	done | yad --title="${title}" --on-top \
+--geometry=${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}+${SCREEN_RIGHT}+${SCREEN_TOP} \
 --progress --text="${text}" ${opts}
 }
 
