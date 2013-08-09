@@ -13,15 +13,15 @@ get_icon_and_color()
             ;;
         Failure)
             color="red"
-            icon="failure.png"
+            icon="icons/failure.png"
             ;;
         Success)
             color="green"
-            icon="success.png"
+            icon="icons/success.png"
             ;;
         Mixed)
             color="orange"
-            icon="mixed.png"
+            icon="icons/mixed.png"
             ;;
         *)
             color="purple"
