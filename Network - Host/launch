@@ -1,8 +1,7 @@
 #!/bin/bash
 
 . ../functions
-
-PING_TIME=15
+. ../network_functions
 
 network_feedback_menu()
 {
@@ -27,17 +26,15 @@ network_problem()
 
 ask_continue $(txtmenu_from_file Network_pg1.txt)
 
-url=$(parse_item 1 $(yad_default_menu --text="Please provide a URL below (default of wikipedia.org)" --form --field="URL")); ask_continue
+url=$(get_url "wikipedia.org")
 
-if [ -z "${url}" ]
+host_output=$(host "${url}"); ret_code=$?
+
+log "${host_output}"
+
+if [ "0" = "${ret_code}" ]
 then
-	url="wikipedia.org"
+	echo "Success"
+else
+	echo "Failure"
 fi
-
-log "Running ping test on ${url}"
-ping -w ${PING_TIME} ${url} 2>&1 | progress_view ${PING_TIME} "" "" --enable-log --log-expanded
-
-result=$(network_feedback_menu "ping")
-stat=$(current_status "" $(get_feedback_status "${result}") )
-
-echo "${stat}"

@@ -1,4 +1,5 @@
-This is a test of i.MX53 wireless network capabilities. It simply runs the commands 'ping' and 'wget' on a user-provided URL (default is wikipedia.org)
-Please make sure you are connected to a wireless network before proceeding.
+	This is one of two tests of the i.MX53 wireless network capabilities. It is strongly recommended that you run this test before proceeding to the other one, "Network - Ping".
 
-To continue, press 'OK'. To return to the main menu, press 'Cancel'.
+	This test performs a DNS lookup on a given URL to make sure that your wireless network is sanely configured. Please make sure you are connected to a wireless network before proceeding.
+
+	To continue, press 'OK'. TO return to the main menu, press 'Cancel'.
