@@ -2,15 +2,14 @@
 
 # yad hackery
 
-if [ -z "$(which yad)" ]
+if [ -e "./bin/yad" ]
 then
-	if [ -e "./bin/yad" ]
-	then
-		PATH="${PATH}:./bin"
-	elif [ -e "../bin/yad" ]
-	then
-		PATH="${PATH}:../bin"
-	fi
+	PATH="${PATH}:./bin"
+	ICONS="./icons"
+elif [ -e "../bin/yad" ]
+then
+	PATH="${PATH}:../bin"
+	ICONS="../icons"
 fi
 
 # buttons
@@ -18,6 +17,7 @@ fi
 CANCEL_BTN=1
 CLOSE_BTN=252
 OK_BTN=0
+LOG_BTN=2
 
 # menu options
 
@@ -245,7 +245,7 @@ close_menu()
 {
 	btn=${1}
 
-	if [ ${btn} -eq ${OK_BTN} ]
+	if [ ${btn} -eq ${OK_BTN} ] || [ ${btn} -eq ${LOG_BTN} ]
 	then
 		return 1
 	else
@@ -346,4 +346,85 @@ ${form_fields} \
 	log "\nUser asked to describe problem:"
 	log "${form_fields}"
 	log "${res}"
+}
+
+# misc menu
+get_icon_and_color()
+{
+    local sstatus=${1}
+    local color=""
+    local icon=""
+
+    case ${sstatus} in
+        Incomplete)
+            color="black"
+            icon="none"
+            ;;
+        Failure)
+            color="red"
+            icon="${ICONS}/failure.png"
+            ;;
+        Success)
+            color="green"
+            icon="${ICONS}/success.png"
+            ;;
+        Mixed)
+            color="orange"
+            icon="${ICONS}/mixed.png"
+            ;;
+        *)
+            color="purple"
+            icon="none"
+            ;;
+    esac
+
+    echo "${icon} ${color}"
+}
+
+get_button()
+{
+	local btn=$?
+
+	echo ${btn}
+	return ${btn}
+}
+
+update_test_status()
+{
+    local testName="${1}"
+    local sstatus=${2}
+    local fileName=${3}
+
+    if [ -z "${sstatus}" ]
+    then
+        exit 0
+    fi
+
+    # this is bad and I feel bad
+    while read icon_line
+    do # if there's one then there's 3 more
+        read test_line
+        read stat_line
+        read color_line
+
+        if [ "${test_line}" = "${testName}" ] && \
+[ ! "${sstatus}" = "Incomplete" ]
+        then
+            local new_icon_color="$(get_icon_and_color \
+${sstatus})"
+
+            echo "${new_icon_color}" | cut -d ' ' -f1
+            echo "${test_line}"
+            echo "${sstatus}"
+            echo "${new_icon_color}" | cut -d ' ' -f2
+        else
+            echo "${icon_line}"
+            echo "${test_line}"
+            echo "${stat_line}"
+            echo "${color_line}"
+        fi
+
+    done < ${fileName} > tmp_menu_file
+
+    mv tmp_menu_file ${fileName}
 }

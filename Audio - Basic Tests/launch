@@ -5,8 +5,6 @@
 
 BASIC_TEST_TIME=6
 
-AUDIO_TESTS="white-noise pink-noise sine ticks"
-
 run_basic_test()
 {
 	local ttest="${1}"
@@ -21,23 +19,14 @@ gst-launch audiotestsrc wave=${ttest} ! alsasink 2>&1)
 	ask_continue
 
 	# UPDATING GLOBAL VARIABLES?!
-	stat=$(current_status "${stat}" $(get_feedback_status "${result}"))
+	local test_stat=$(get_feedback_status "${result}")
+	stat=$(current_status "${stat}" ${test_stat})
 }
 
 ask_continue $(txtmenu_from_file Audio_pg1.txt)
 
 res=$(get_audio_output_device); ask_continue; log "${res}"
 
-for ttest in ${AUDIO_TESTS}
-do
-	run_basic_test ${ttest} ${BASIC_TEST_TIME}
-done
-
-# actual test
-#progress_view_dummy ${PINKNOISE_TIME} --auto-close &
-#log $(timeout ${PINKNOISE_TIME} speaker-test -l 1 2>&1)
-
-#result=$(logged_feedback_menu "pink_noise" audio_feedback.menu); ask_continue
-#stat=$(current_status "" $(get_feedback_status "${result}" ) )
+run_basic_test pink-noise ${BASIC_TEST_TIME}
 
 echo ${stat}
