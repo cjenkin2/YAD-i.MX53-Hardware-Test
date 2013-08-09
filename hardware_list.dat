@@ -6,5 +6,6 @@ GPU - GLES2
 GPU - VG1
 Keyboard
 NAND
-Network
+Network - Host
+Network - Ping
 Video

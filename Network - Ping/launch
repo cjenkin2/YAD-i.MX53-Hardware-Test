@@ -1,0 +1,57 @@
+#!/bin/bash
+
+. ../functions
+
+PING_TIME=15
+
+network_feedback_menu()
+{
+	stage=${1}
+
+	log "After running stage ${stage}"
+	log_default_feedback network_feedback.menu
+}
+
+network_good()
+{
+	log "Network test successful"
+	echo "Success"
+}
+
+network_problem()
+{
+	log_default_describe_problem "Timeout" "Other"
+
+	echo "Failure"
+}
+
+ask_continue $(txtmenu_from_file Network_pg1.txt)
+
+url=$(parse_item 1 $(yad_default_menu --text="Please provide a URL below (default of wikipedia.org)" --form --field="URL")); ask_continue
+
+if [ -z "${url}" ]
+then
+	url="wikipedia.org"
+fi
+
+log "Running ping test on ${url}"
+ping -w ${PING_TIME} ${url} 2>&1 | \
+tee -a tmp.txt | \
+progress_view ${PING_TIME} "" "" --enable-log --log-expanded --auto-close
+
+percent_loss=$(grep "%" tmp.txt | cut -d' ' -f6)
+
+if [ "${percent_loss}" = "100%" ] || [ -z "${percent_loss}" ]
+then
+	stat="Failure"
+elif [ "${percent_loss}" = "0%" ]
+then
+	stat="Succes"
+else
+	stat="Mixed"
+fi
+
+# be nice
+rm tmp.txt
+
+echo "${stat}"
