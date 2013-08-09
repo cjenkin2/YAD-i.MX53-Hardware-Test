@@ -17,7 +17,10 @@ ask_continue
 log "${res}"
 
 progress_view_dummy ${BEETHOVEN_TIME} --auto-close &
-log $(timeout ${BEETHOVEN_TIME} mpg321 clip.mp3 2>&1)
+gst_launch_output=$(timeout ${BEETHOVEN_TIME} \
+gst-launch playbin2 uri=file://"$(pwd)"/clip.mp3 2>&1)
+
+log "${gst_launch_output}"
 
 result=$(logged_feedback_menu "mp3_playback" audio_feedback.menu)
 stat=$(current_status "" $(get_feedback_status "${result}") )
