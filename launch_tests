@@ -14,20 +14,19 @@ main_menu()
 
 launch_test()
 {
-	# now entering
-	cd "${choice}"
 
 	if [ ! -z "${old_stat}" ] && [ ! "${old_stat}" = "Incomplete" ]
 	then
 		ask_continue $(yad_default_menu \
 --text="This test has already been run, with status: ${old_stat}\n\
 Please review the log file below before proceeding" \
---text-info --filename=log) >> /dev/null
+--text-info --filename="${choice}"/log) >> /dev/null
 	fi
 
-	init_test_log
-		
-	status=$(./launch)
+	# now entering
+	cd "${choice}"
+		init_test_log
+		status=$(./launch)
 	cd ..
 	# now exiting
 
